@@ -12,8 +12,6 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  TextEditingController notesController = TextEditingController();
-  TextEditingController orderStatusController = TextEditingController();
   bool isFormChanged = false;
   @override
   void initState() {

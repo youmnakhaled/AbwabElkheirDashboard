@@ -1,5 +1,8 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
+import 'package:abwab_elkheir_dashboard/Views/AddCaseScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LandingScreen.dart';
+import 'package:abwab_elkheir_dashboard/Views/LayoutTemplate.dart';
+import 'package:abwab_elkheir_dashboard/Views/ViewCasesScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vrouter/vrouter.dart';
@@ -48,22 +51,22 @@ class MyApp extends StatelessWidget {
         buildTransition: (animation1, _, child) =>
             FadeTransition(opacity: animation1, child: child),
         routes: [
-          VWidget(
+          VStacked(
             path: '/',
             widget: LandingScreen(),
           ),
-          // VWidget(
-          //   path: '/addCase',
-          //   widget: LayoutTemplate(
-          //     child: AboutUsView(),
-          //   ),
-          // ),
-          // VWidget(
-          //   path: '/cases',
-          //   widget: LayoutTemplate(
-          //     child: AboutUsView(),
-          //   ),
-          // ),
+          VStacked(
+            path: '/addCase',
+            widget: LayoutTemplate(
+              child: AddCaseScreen(),
+            ),
+          ),
+          VStacked(
+            path: '/cases',
+            widget: LayoutTemplate(
+              child: ViewCasesScreen(),
+            ),
+          ),
           // VWidget(
           //   path: '/notfound',
           //   widget: LayoutTemplate(
@@ -77,18 +80,6 @@ class MyApp extends StatelessWidget {
           ),
         ],
         debugShowCheckedModeBanner: false,
-        // child: MaterialApp(
-        //   title: 'Raz3 Ordering Form',
-        //   debugShowCheckedModeBanner: false,
-        //   theme: ThemeData(
-        //     accentColor: Colors.white,
-        //     primaryColor: ConstantColors.lightBlue,
-        //   ),
-        //   home: LandingScreen(),
-        //   routes: {
-        //     //OrderDetailsScreen.routeName: (ctx) => OrderDetailsScreen(),
-        //   },
-        // ),
       ),
     );
   }

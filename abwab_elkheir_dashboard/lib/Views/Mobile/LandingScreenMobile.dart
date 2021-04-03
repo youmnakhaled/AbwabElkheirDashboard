@@ -3,6 +3,7 @@ import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart'
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vrouter/vrouter.dart';
 
 class LandingScreenMobile extends StatefulWidget {
   final deviceSize;
@@ -50,7 +51,7 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
                 ),
               ),
             ),
-            isLoading
+            auth.status == Status.loading
                 ? Center(
                     child: CircularProgressIndicator(
                       backgroundColor: ConstantColors.purple,
@@ -110,8 +111,9 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
                                           passwordController.text,
                                           context);
                                       if (success) {
-                                        // Navigator.of(context)
-                                        //     .pushNamed(HomeScreen.routeName);
+                                        VRouterData.of(context)
+                                            .pushReplacementNamed('/cases');
+
                                         print('Success');
                                       }
                                       setState(() {

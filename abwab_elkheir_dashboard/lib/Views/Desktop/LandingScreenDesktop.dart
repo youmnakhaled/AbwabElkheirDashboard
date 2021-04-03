@@ -111,6 +111,8 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
                                           passwordController.text,
                                           context);
                                       if (success) {
+                                        VRouterData.of(context)
+                                            .pushReplacementNamed('/cases');
                                         print('Success');
                                       }
                                       setState(() {

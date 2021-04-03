@@ -12,8 +12,6 @@ class ViewCasesScreen extends StatefulWidget {
 }
 
 class _ViewCasesScreenState extends State<ViewCasesScreen> {
-  TextEditingController notesController = TextEditingController();
-  TextEditingController orderStatusController = TextEditingController();
   bool isFormChanged = false;
   @override
   void initState() {
