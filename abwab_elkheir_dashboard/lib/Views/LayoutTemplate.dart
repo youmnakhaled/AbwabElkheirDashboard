@@ -19,7 +19,7 @@ class _LayoutTemplateState extends State<LayoutTemplate> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
+    // final deviceSize = MediaQuery.of(context).size;
     return ResponsiveBuilder(
       builder: (context, sizingInformation) => Scaffold(
         key: _key,

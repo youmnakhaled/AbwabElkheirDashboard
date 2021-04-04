@@ -111,8 +111,8 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
                                           passwordController.text,
                                           context);
                                       if (success) {
-                                        VRouterData.of(context)
-                                            .pushReplacementNamed('/cases');
+                                        context.vRouter
+                                            .pushReplacement("/cases");
 
                                         print('Success');
                                       }

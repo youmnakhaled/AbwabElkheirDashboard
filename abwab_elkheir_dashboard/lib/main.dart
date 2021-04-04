@@ -51,17 +51,17 @@ class MyApp extends StatelessWidget {
         buildTransition: (animation1, _, child) =>
             FadeTransition(opacity: animation1, child: child),
         routes: [
-          VStacked(
+          VWidget(
             path: '/',
             widget: LandingScreen(),
           ),
-          VStacked(
+          VWidget(
             path: '/addCase',
             widget: LayoutTemplate(
               child: AddCaseScreen(),
             ),
           ),
-          VStacked(
+          VWidget(
             path: '/cases',
             widget: LayoutTemplate(
               child: ViewCasesScreen(),

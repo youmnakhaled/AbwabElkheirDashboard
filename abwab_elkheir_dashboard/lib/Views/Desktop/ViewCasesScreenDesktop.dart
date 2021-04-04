@@ -21,7 +21,7 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = widget.deviceSize;
+    // final deviceSize = widget.deviceSize;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
