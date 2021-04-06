@@ -1,4 +1,5 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
+import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 import 'package:abwab_elkheir_dashboard/Views/AddCaseScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LandingScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LayoutTemplate.dart';
@@ -6,6 +7,7 @@ import 'package:abwab_elkheir_dashboard/Views/ViewCasesScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vrouter/vrouter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +22,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: AuthenticationViewModel(),
         ),
+        ChangeNotifierProvider.value(
+          value: CasesViewModel(),
+        ),
       ],
       child: VRouter(
         mode: VRouterModes.hash,
@@ -28,7 +33,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.black,
           accentColor: Colors.white,
         ),
-        // locale: _locale,
+        // locale: const Locale("ar"),
         // supportedLocales: [
         //   Locale('en'),
         //   Locale('ar'),
@@ -39,6 +44,15 @@ class MyApp extends StatelessWidget {
         //   GlobalWidgetsLocalizations.delegate,
         //   GlobalCupertinoLocalizations.delegate,
         // ],
+        localizationsDelegates: [
+          GlobalCupertinoLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('ar'), // OR Locale('ar', 'AE') OR Other RTL locales
+        ],
+        locale: Locale('ar'),
         localeResolutionCallback: (deviceLocale, supportedLocales) {
           for (var locale in supportedLocales) {
             if (locale.languageCode == deviceLocale.languageCode &&

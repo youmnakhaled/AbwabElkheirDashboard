@@ -2,6 +2,11 @@ import 'package:abwab_elkheir_dashboard/Constants/ConstantColors.dart';
 import 'package:flutter/material.dart';
 
 class UtilityFunctions {
+  static List<String> parseString(stringJson) {
+    List<String> stringList = new List<String>.from(stringJson);
+    return stringList;
+  }
+
   static void showErrorDialog(
       String title, String message, BuildContext context) {
     showDialog(
