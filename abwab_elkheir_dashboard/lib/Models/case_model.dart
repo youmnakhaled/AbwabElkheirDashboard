@@ -2,7 +2,7 @@ import '../Services/UtilityFunctions.dart';
 import 'package:flutter/material.dart';
 
 class Case {
-  final int donations;
+  final String status;
   final bool isActive;
   final List<String> images;
   final String id;
@@ -14,7 +14,7 @@ class Case {
   const Case({
     @required this.description,
     @required this.category,
-    @required this.donations,
+    @required this.status,
     @required this.id,
     @required this.images,
     @required this.isActive,
@@ -25,7 +25,7 @@ class Case {
     return Case(
       category: json['category'],
       description: json['description'],
-      donations: json['donations'],
+      status: json['status'],
       id: json['id'],
       isActive: json['isActive'],
       title: json['title'],

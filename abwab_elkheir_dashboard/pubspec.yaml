@@ -30,6 +30,7 @@ dependencies:
   responsive_builder: ^0.3.0
   vrouter: ^1.1.0+15
   http: ^0.12.1
+  arabic_numbers: ^0.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,8 +53,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/placeholder.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

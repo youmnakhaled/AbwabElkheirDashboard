@@ -3,6 +3,7 @@ import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Constants/ConstantColors.dart';
+import 'package:arabic_numbers/arabic_numbers.dart';
 
 class ViewCasesScreenDesktop extends StatefulWidget {
   final deviceSize;
@@ -16,6 +17,7 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
   CasesViewModel viewModel;
   CasesViewModel listener;
   AuthenticationViewModel auth;
+  ArabicNumbers arabicNumber = ArabicNumbers();
   bool isLoading = false;
   @override
   void initState() {
@@ -106,58 +108,113 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
                                               top: 5, bottom: 20, right: 15),
                                           child: Text(
                                             listener.cases[index].title,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.clip,
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
-                                                fontSize: 20,
+                                                fontSize: 25,
                                                 fontWeight: FontWeight.bold,
                                                 color: ConstantColors.purple),
                                           ),
                                         ),
-                                        FittedBox(
-                                          child: Container(
-                                            width: deviceSize.width * 0.25,
-                                            child: Text(
-                                              '${listener.cases[index].donations}/${listener.cases[index].totalPrice} جنيه',
-                                              textAlign: TextAlign.left,
-                                            ),
-                                          ),
-                                        ),
                                         Container(
-                                          width: deviceSize.width * 0.25,
-                                          height: 10,
-                                          padding: EdgeInsets.only(right: 15),
-                                          child: Stack(
-                                            children: <Widget>[
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.grey,
-                                                      width: 1.0),
-                                                  color: Color.fromRGBO(
-                                                      220, 220, 220, 1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                            margin: EdgeInsets.only(right: 20),
+                                            child: Row(
+                                              children: [
+                                                Text('الحالة: ',
+                                                    textAlign: TextAlign.right,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.black)),
+                                                Text(
+                                                  '${viewModel.cases[index].status}',
+                                                  textAlign: TextAlign.right,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: viewModel
+                                                                  .cases[index]
+                                                                  .status ==
+                                                              'في البداية'
+                                                          ? Colors.red
+                                                          : viewModel
+                                                                      .cases[
+                                                                          index]
+                                                                      .status ==
+                                                                  'جاري التجميع'
+                                                              ? Colors.orange
+                                                              : viewModel
+                                                                          .cases[
+                                                                              index]
+                                                                          .status ==
+                                                                      'قارب على الانتهاء'
+                                                                  ? Colors.green
+                                                                  : Colors
+                                                                      .green),
                                                 ),
-                                              ),
-                                              FractionallySizedBox(
-                                                widthFactor: listener
-                                                        .cases[index]
-                                                        .donations /
-                                                    listener.cases[index]
-                                                        .totalPrice,
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        ConstantColors.purple,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                              ],
+                                            )),
+                                        Container(
+                                            margin: EdgeInsets.only(right: 20),
+                                            child: Text(
+                                              'المبلغ: ${arabicNumber.convert(viewModel.cases[index].totalPrice)} جنيه',
+                                              textAlign: TextAlign.right,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.black),
+                                            ))
+                                        // FittedBox(
+                                        //   child: Container(
+                                        //     width: deviceSize.width * 0.25,
+                                        //     child: Text(
+                                        //       '${listener.cases[index].donations}/${listener.cases[index].totalPrice} جنيه',
+                                        //       textAlign: TextAlign.left,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        // Container(
+                                        //   width: deviceSize.width * 0.25,
+                                        //   height: 10,
+                                        //   padding: EdgeInsets.only(right: 15),
+                                        //   child: Stack(
+                                        //     children: <Widget>[
+                                        //       Container(
+                                        //         decoration: BoxDecoration(
+                                        //           border: Border.all(
+                                        //               color: Colors.grey,
+                                        //               width: 1.0),
+                                        //           color: Color.fromRGBO(
+                                        //               220, 220, 220, 1),
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(10),
+                                        //         ),
+                                        //       ),
+                                        //       FractionallySizedBox(
+                                        //         widthFactor: listener
+                                        //                 .cases[index]
+                                        //                 .donations /
+                                        //             listener.cases[index]
+                                        //                 .totalPrice,
+                                        //         child: Container(
+                                        //           decoration: BoxDecoration(
+                                        //             color:
+                                        //                 ConstantColors.purple,
+                                        //             borderRadius:
+                                        //                 BorderRadius.circular(
+                                        //                     10),
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     ],
+                                        //   ),
+                                        // ),
                                       ],
                                     )
                                   ],
