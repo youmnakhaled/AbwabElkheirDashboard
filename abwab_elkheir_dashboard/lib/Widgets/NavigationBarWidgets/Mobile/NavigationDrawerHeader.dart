@@ -13,20 +13,20 @@ class NavigationDrawerHeader extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            'Abwab El Kheir',
+            'أبواب الخير',
             style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          Text(
-            'Films',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            ),
-          ),
+          // Text(
+          //   'Films',
+          //   style: TextStyle(
+          //     fontSize: 16,
+          //     color: Colors.black,
+          //   ),
+          // ),
         ],
       ),
     );

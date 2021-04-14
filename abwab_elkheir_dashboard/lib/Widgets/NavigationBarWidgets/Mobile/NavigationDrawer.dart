@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:abwab_elkheir_dashboard/Widgets/NavigationBarWidgets/Mobile/NavigationDrawerHeader.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/NavigationBarWidgets/Mobile/NavigationDrawerItem.dart';
-import 'package:flutter/material.dart';
+
+import 'package:vrouter/vrouter.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key key}) : super(key: key);
@@ -27,11 +30,10 @@ class NavigationDrawer extends StatelessWidget {
               height: 50,
             ),
             DrawerItem(
-              title: 'All Cases',
+              title: 'الحالات ',
               icon: Icons.home,
               onPressed: () {
-                // Navigator.of(context)
-                //     .pushReplacementNamed(HomeScreen.routeName);
+                context.vRouter.pushReplacement("/cases");
               },
             ),
             Container(
@@ -43,11 +45,10 @@ class NavigationDrawer extends StatelessWidget {
               ),
             ),
             DrawerItem(
-                title: 'Add Case',
+                title: ' اضافة حالة',
                 icon: Icons.shopping_cart_rounded,
                 onPressed: () {
-                  // Navigator.of(context)
-                  //     .pushReplacementNamed(ChannelsScreen.routeName);
+                  context.vRouter.pushReplacement("/addCase");
                 }),
             Container(
               margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
