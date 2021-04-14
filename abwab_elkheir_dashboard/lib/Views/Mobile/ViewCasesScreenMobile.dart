@@ -3,6 +3,8 @@ import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vrouter/vrouter.dart';
+
 import '../../Constants/ConstantColors.dart';
 import 'package:arabic_numbers/arabic_numbers.dart';
 
@@ -32,7 +34,8 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
     super.initState();
   }
 
-  void selectCase(BuildContext context, int id) {
+  void selectCase(BuildContext context, String id) {
+    // context.vRouter.pushNamed("/addCase", queryParameters: {'id': id});
     // Navigator.of(context).pushNamed(CaseDetails.routeName, arguments: id);
   }
 
@@ -41,17 +44,18 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
     final deviceSize = widget.deviceSize;
     listener = Provider.of<CasesViewModel>(context, listen: true);
     return Scaffold(
-      backgroundColor: Colors.black,
+      //  backgroundColor: Colors.black,
       appBar: AppBar(
           title: Text(""),
           backgroundColor: ConstantColors.lightBlue,
           actions: [
             IconButton(
-              icon: Image.asset(
-                'assets/logo.png',
-                fit: BoxFit.fill,
-              ),
-              onPressed: null,
+              padding: EdgeInsets.all(7),
+              icon: Icon(Icons.add),
+              onPressed: () {
+                // Navigator.of(context).pushNamed(EditProductScreen.routeName);
+                context.vRouter.push("/addCase");
+              },
             ),
           ]),
       body: RefreshIndicator(
@@ -78,7 +82,8 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
                         itemCount: listener.cases.length,
                         itemBuilder: (ctx, index) {
                           return InkWell(
-                            onTap: () => selectCase(ctx, index),
+                            onTap: () =>
+                                selectCase(ctx, listener.cases[index].id),
                             child: Container(
                               height: deviceSize.height * 0.22,
                               padding: EdgeInsets.all(5),
