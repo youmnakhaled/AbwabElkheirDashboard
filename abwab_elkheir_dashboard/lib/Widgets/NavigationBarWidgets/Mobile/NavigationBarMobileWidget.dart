@@ -15,7 +15,7 @@ class NavigationBarMobileWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             IconButton(
-              icon: Icon(Icons.menu, color: Colors.white),
+              icon: Icon(Icons.filter_alt_rounded, color: Colors.white),
               onPressed: () {
                 handleDrawer();
               },

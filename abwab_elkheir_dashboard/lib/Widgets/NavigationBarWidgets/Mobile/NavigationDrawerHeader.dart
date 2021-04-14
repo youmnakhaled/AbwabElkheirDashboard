@@ -6,29 +6,10 @@ class NavigationDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      // color: primaryColor,
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            'Abwab El Kheir',
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          Text(
-            'Films',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-    );
+        height: 100,
+        margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
+        // color: primaryColor,
+        alignment: Alignment.center,
+        child: Image.asset('assets/logo.png'));
   }
 }

@@ -40,7 +40,7 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
     final deviceSize = widget.deviceSize;
     listener = Provider.of<CasesViewModel>(context, listen: true);
     return Scaffold(
-      backgroundColor: Colors.black,
+      //backgroundColor: Colors.black,
       body: RefreshIndicator(
         color: ConstantColors.lightBlue,
         onRefresh: () async {

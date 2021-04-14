@@ -41,7 +41,12 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
     final deviceSize = widget.deviceSize;
     listener = Provider.of<CasesViewModel>(context, listen: true);
     return Scaffold(
-      backgroundColor: Colors.black,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ConstantColors.lightBlue,
+        onPressed: () {},
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      // backgroundColor: Colors.black,
       appBar: AppBar(
           title: Text(""),
           backgroundColor: ConstantColors.lightBlue,

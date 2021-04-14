@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vrouter/vrouter.dart';
 
+import '../../Constants/ConstantColors.dart';
+
 class LandingScreenDesktop extends StatefulWidget {
   final deviceSize;
 
@@ -31,7 +33,7 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
         TextEditingController(text: "12345678");
     final deviceSize = widget.deviceSize;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -42,11 +44,11 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
                 right: 35,
               ),
               child: Container(
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 100),
+                margin: EdgeInsets.fromLTRB(0, 20, 0, 30),
                 child: Center(
                   child: Image.asset(
-                    'assets/images/ARCADE FILMS .png',
-                    width: deviceSize.width * 0.4,
+                    'assets/logo.png',
+                    width: deviceSize.height * 0.2,
                   ),
                 ),
               ),
@@ -54,7 +56,7 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
             isLoading
                 ? Center(
                     child: CircularProgressIndicator(
-                      backgroundColor: ConstantColors.purple,
+                      backgroundColor: ConstantColors.lightBlue,
                     ),
                   )
                 : Form(
@@ -74,7 +76,8 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
                             Text(
                               'Welcome',
                               style: TextStyle(
-                                  color: ConstantColors.purple, fontSize: 50),
+                                  color: ConstantColors.lightBlue,
+                                  fontSize: 50),
                             ),
                             SizedBox(
                               height: 50,
@@ -120,7 +123,7 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
                                       });
                                     }
                                   },
-                                  backgroundColor: ConstantColors.purple,
+                                  backgroundColor: ConstantColors.lightBlue,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.0),
                                   ),

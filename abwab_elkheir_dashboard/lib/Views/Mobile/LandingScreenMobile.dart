@@ -31,7 +31,6 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
         TextEditingController(text: "12345678");
     final deviceSize = widget.deviceSize;
     return Scaffold(
-      backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -42,11 +41,11 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
                 right: 35,
               ),
               child: Container(
-                margin: EdgeInsets.fromLTRB(10, 20, 10, 50),
+                margin: EdgeInsets.fromLTRB(10, 20, 10, 30),
                 child: Center(
                   child: Image.asset(
-                    'assets/images/ARCADE FILMS .png',
-                    width: deviceSize.height * 0.3,
+                    'assets/logo.png',
+                    width: deviceSize.height * 0.2,
                   ),
                 ),
               ),
@@ -54,7 +53,7 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
             auth.status == Status.loading
                 ? Center(
                     child: CircularProgressIndicator(
-                      backgroundColor: ConstantColors.purple,
+                      backgroundColor: ConstantColors.lightBlue,
                     ),
                   )
                 : Form(
@@ -74,7 +73,8 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
                             Text(
                               'Welcome',
                               style: TextStyle(
-                                  color: ConstantColors.purple, fontSize: 30),
+                                  color: ConstantColors.lightBlue,
+                                  fontSize: 30),
                             ),
                             SizedBox(
                               height: 50,
@@ -121,7 +121,7 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
                                       });
                                     }
                                   },
-                                  backgroundColor: ConstantColors.purple,
+                                  backgroundColor: ConstantColors.lightBlue,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.0),
                                   ),

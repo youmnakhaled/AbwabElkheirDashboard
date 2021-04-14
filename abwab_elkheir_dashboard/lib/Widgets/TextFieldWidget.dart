@@ -9,7 +9,7 @@ class TextFieldWidget extends StatelessWidget {
   final Function suffixOnTap;
   final bool obscureText;
   final String labelText;
-  final bool search;
+  final double width;
   final Function onChanged;
 
   const TextFieldWidget({
@@ -21,7 +21,7 @@ class TextFieldWidget extends StatelessWidget {
     this.onChanged,
     this.obscureText = false,
     this.labelText,
-    this.search = false,
+    this.width,
   });
 
   @override
@@ -30,16 +30,16 @@ class TextFieldWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: search
-              ? deviceSize.width * 0.2
-              : deviceSize.width * 0.3 < 250
+          width: width == null
+              ? deviceSize.width * 0.3 < 250
                   ? 250
-                  : deviceSize.width * 0.3,
+                  : deviceSize.width * 0.3
+              : width,
           margin: EdgeInsets.all(deviceSize.height * 0.01),
           child: Theme(
             data: ThemeData(primaryColor: Colors.black26),
             child: Directionality(
-              textDirection: TextDirection.ltr,
+              textDirection: TextDirection.rtl,
               child: TextFormField(
                 textAlign: TextAlign.left,
                 onChanged: onChanged != null ? onChanged : null,

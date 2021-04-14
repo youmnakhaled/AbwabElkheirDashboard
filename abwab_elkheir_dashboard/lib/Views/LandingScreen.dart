@@ -24,7 +24,7 @@ class _LandingScreenState extends State<LandingScreen> {
     return ResponsiveBuilder(builder: (context, sizingInformation) {
       print(sizingInformation);
       return Scaffold(
-        backgroundColor: ConstantColors.purple,
+        //backgroundColor: ConstantColors.purple,
         body: Container(
           height: deviceSize.height,
           child: ScreenTypeLayout(
