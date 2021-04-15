@@ -46,12 +46,12 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
               ),
               child: Container(
                 margin: EdgeInsets.fromLTRB(0, 20, 0, 100),
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/ARCADE FILMS .png',
-                    width: deviceSize.width * 0.4,
-                  ),
-                ),
+                // child: Center(
+                //   child: Image.asset(
+                //     'assets/images/ARCADE FILMS .png',
+                //     width: deviceSize.width * 0.4,
+                //   ),
+                // ),
               ),
             ),
             isLoading
@@ -86,14 +86,30 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
                               controller: emailController,
                               deviceSize: deviceSize,
                               labelText: 'Email',
+                              maxLines: 1,
+                              textDirection: TextDirection.ltr,
                               prefixIconData: Icons.person,
+                              validate: (value) {
+                                if (!value.contains("@") ||
+                                    !value.contains(".") ||
+                                    value.isEmpty) {
+                                  return "Please enter a valid email address.";
+                                }
+                              },
                             ),
                             TextFieldWidget(
                               controller: passwordController,
                               deviceSize: deviceSize,
                               labelText: 'Password',
+                              maxLines: 1,
+                              textDirection: TextDirection.ltr,
                               prefixIconData: Icons.vpn_key,
                               obscureText: true,
+                              validate: (value) {
+                                if (value.isEmpty || value.length < 8) {
+                                  return "Password must be 8 characters or more.";
+                                }
+                              },
                             ),
                             Container(
                               margin: const EdgeInsets.only(

@@ -1,17 +1,12 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-////////////////
-///import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
-
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:vrouter/vrouter.dart';
+import 'dart:io';
 
 import '../../Constants/ConstantColors.dart';
-import 'package:arabic_numbers/arabic_numbers.dart';
 
 ////////////////////////////
 
@@ -50,39 +45,57 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _statusFocusNode = FocusNode();
-  final _imageUrlController = TextEditingController();
-  final _imageUrlFocusNode = FocusNode();
+  // final _imageUrlController = TextEditingController();
+  // final _imageUrlFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
 
-  void _updateImageUrl() {
-    if (!_imageUrlFocusNode.hasFocus) {
-      if ((!_imageUrlController.text.startsWith('http') &&
-              !_imageUrlController.text.startsWith('https')) ||
-          (!_imageUrlController.text.endsWith('.png') &&
-              !_imageUrlController.text.endsWith('.jpg') &&
-              !_imageUrlController.text.endsWith('.jpeg'))) {
-        return;
-      }
-      setState(() {});
+  File imageSelected;
+  Future chooseImage() async {
+    final imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    print("selectedddd");
+    setState(() {
+      imageSelected = imageFile;
+    });
+  }
+
+  // void _updateImageUrl() {
+  //   if (!_imageUrlFocusNode.hasFocus) {
+  //     if ((!_imageUrlController.text.startsWith('http') &&
+  //             !_imageUrlController.text.startsWith('https')) ||
+  //         (!_imageUrlController.text.endsWith('.png') &&
+  //             !_imageUrlController.text.endsWith('.jpg') &&
+  //             !_imageUrlController.text.endsWith('.jpeg'))) {
+  //       return;
+  //     }
+  //     setState(() {});
+  //   }
+  // }
+
+  void _saveForm() {
+    final isValid = _form.currentState.validate();
+    if (!isValid) {
+      return;
     }
+    _form.currentState.save();
+    Navigator.of(context).pop();
   }
 
   @override
   void dispose() {
-    _imageUrlFocusNode.removeListener(_updateImageUrl);
+    // _imageUrlFocusNode.removeListener(_updateImageUrl);
     _priceFocusNode.dispose();
     _statusFocusNode.dispose();
     _descriptionFocusNode.dispose();
-    _imageUrlController.dispose();
-    _imageUrlFocusNode.dispose();
+    // _imageUrlController.dispose();
+    // _imageUrlFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final id = ModalRoute.of(context).settings.arguments as String;
-    if (id != null) print(id);
-    // final deviceSize = widget.deviceSize;
+    final deviceSize = widget.deviceSize;
+    //final id = context.vRouter.pathParameters['id'];
+    //final id = ModalRoute.of(context).settings.arguments as String;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -92,7 +105,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
             IconButton(
               padding: EdgeInsets.all(7),
               icon: Icon(Icons.save),
-              onPressed: () {},
+              onPressed: _saveForm,
             ),
           ]),
       body: Padding(
@@ -101,19 +114,44 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
           key: _form,
           child: ListView(
             children: <Widget>[
-              TextFormField(
+              // TextFormField(
+              //   initialValue: initValues['title'],
+              //   decoration: InputDecoration(labelText: 'عنوان الحالة'),
+              //   textInputAction: TextInputAction.next,
+              //   onFieldSubmitted: (_) {
+              //     FocusScope.of(context).requestFocus(_priceFocusNode);
+              //   },
+              //   validator: (value) {
+              //     if (value.isEmpty) {
+              //       return 'أدخل عنوان الحالة';
+              //     }
+              //     return null;
+              //   },
+              //   // onSaved: (value) {
+              //   //   _editedProduct = Product(
+              //   //       title: value,
+              //   //       price: _editedProduct.price,
+              //   //       description: _editedProduct.description,
+              //   //       imageUrl: _editedProduct.imageUrl,
+              //   //       id: _editedProduct.id,
+              //   //       isFavorite: _editedProduct.isFavorite);
+              //   // },
+              // ),
+              TextFieldWidget(
                 initialValue: initValues['title'],
-                decoration: InputDecoration(labelText: 'عنوان الحالة'),
+                deviceSize: deviceSize,
+                labelText: 'عنوان الحالة',
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocusNode);
                 },
-                validator: (value) {
+                validate: (value) {
                   if (value.isEmpty) {
                     return 'أدخل عنوان الحالة';
                   }
                   return null;
                 },
+                textDirection: TextDirection.rtl,
                 // onSaved: (value) {
                 //   _editedProduct = Product(
                 //       title: value,
@@ -124,16 +162,18 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                 //       isFavorite: _editedProduct.isFavorite);
                 // },
               ),
-              TextFormField(
+              TextFieldWidget(
                 initialValue: initValues['amount'],
-                decoration: InputDecoration(labelText: 'المبلغ'),
                 textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.number,
+                textDirection: TextDirection.rtl,
+                inputType: TextInputType.number,
+                deviceSize: deviceSize,
+                labelText: ' المبلغ المطلوب',
                 focusNode: _priceFocusNode,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocusNode);
                 },
-                validator: (value) {
+                validate: (value) {
                   if (value.isEmpty) {
                     return 'أدخل المبلغ المطلوب للحالة';
                   }
@@ -141,7 +181,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                     return 'أدخل رقم صحيح لمبلغ الحالة ';
                   }
                   if (double.parse(value) <= 0) {
-                    return 'يجب أن يكون المبلغ المطلوب للحالة أعلى من صفر.';
+                    return 'يجب أن يكون المبلغ  من صفر.';
                   }
                   return null;
                 },
@@ -155,13 +195,15 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                 //       isFavorite: _editedProduct.isFavorite);
                 // },
               ),
-              TextFormField(
+              TextFieldWidget(
                 initialValue: initValues['description'],
-                decoration: InputDecoration(labelText: 'التفاصيل'),
-                maxLines: 10,
-                keyboardType: TextInputType.multiline,
+                deviceSize: deviceSize,
+                labelText: 'التفاصيل',
+                maxLines: 14,
+                textDirection: TextDirection.rtl,
+                inputType: TextInputType.multiline,
                 focusNode: _descriptionFocusNode,
-                validator: (value) {
+                validate: (value) {
                   if (value.isEmpty) {
                     return 'أدخل تفاصيل الحالة';
                   }
@@ -178,93 +220,162 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                 //   );
                 // },
               ),
-              Expanded(
-                child: DropdownButton(
-                  onTap: () {
-                    FocusScope.of(context).requestFocus(_statusFocusNode);
-                  },
-                  isExpanded: true,
-                  elevation: 10,
-                  hint: Text(" درجة الحالة"),
-                  //value: "init ",
-                  items: <DropdownMenuItem>[
-                    DropdownMenuItem(
-                      child: Text("فى البداية"),
-                    ),
-                    DropdownMenuItem(
-                      child: Text("قارب على الانتهاء "),
-                    ),
-                    DropdownMenuItem(
-                      child: Text(" جاري التجميع "),
-                    ),
-                  ],
-                  onChanged: (value) {},
-                ),
-              ),
               Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Container(
-                    width: 100,
-                    height: 100,
-                    margin: EdgeInsets.only(
-                      top: 8,
-                      right: 10,
+                    width: deviceSize.width * 0.3 < 250
+                        ? 250
+                        : deviceSize.width * 0.3,
+                    margin: EdgeInsets.all(deviceSize.height * 0.01),
+                    child: Theme(
+                      data: ThemeData(primaryColor: Colors.black26),
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: DropdownButton(
+                          onTap: () {
+                            FocusScope.of(context)
+                                .requestFocus(_statusFocusNode);
+                          },
+                          isExpanded: true,
+                          elevation: 10,
+                          hint: Text(" درجة الحالة"),
+                          //value: "init ",
+                          items: <DropdownMenuItem>[
+                            DropdownMenuItem(
+                              child: Text("فى البداية"),
+                            ),
+                            DropdownMenuItem(
+                              child: Text("قارب على الانتهاء "),
+                            ),
+                            DropdownMenuItem(
+                              child: Text(" جاري التجميع "),
+                            ),
+                          ],
+                          onChanged: (value) {},
+                        ),
+                      ),
                     ),
+                  ),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: deviceSize.width * 0.3 < 250
+                        ? 250
+                        : deviceSize.width * 0.3,
+                    margin: EdgeInsets.all(deviceSize.height * 0.01),
+                    child: Theme(
+                      data: ThemeData(primaryColor: Colors.black26),
+                      child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Expanded(
+                            child: FlatButton.icon(
+                              onPressed: chooseImage,
+                              icon: Icon(Icons.upload_rounded),
+                              label: Text('اختار صورة للحالة'),
+                            ),
+                          )),
+                    ),
+                  ),
+                  Container(
+                    width: deviceSize.width * 0.3 < 250
+                        ? 250
+                        : deviceSize.width * 0.3,
+                    height: 200,
                     decoration: BoxDecoration(
                       border: Border.all(
                         width: 1,
                         color: Colors.grey,
                       ),
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
-                    child: _imageUrlController.text.isEmpty
-                        ? Text('Enter a URL')
-                        : FittedBox(
-                            child: Image.network(
-                              _imageUrlController.text,
-                              fit: BoxFit.cover,
+                    child: imageSelected == null
+                        ? Container(
+                            margin: EdgeInsets.all(10),
+                            child: Text(
+                              'صورة الحالة',
+                              style: TextStyle(
+                                color: Colors.black54,
+                              ),
                             ),
+                          )
+                        : Image.file(
+                            imageSelected,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
                           ),
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      decoration: InputDecoration(labelText: 'رابط صورة الحالة'),
-                      keyboardType: TextInputType.url,
-                      textInputAction: TextInputAction.done,
-                      controller: _imageUrlController,
-                      focusNode: _imageUrlFocusNode,
-                      onFieldSubmitted: (_) {
-                        // _saveForm();
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'أدخل رابط الصورة';
-                        }
-                        if (!value.startsWith('http') &&
-                            !value.startsWith('https')) {
-                          return 'رابط الصورة غير صحيح';
-                        }
-                        if (!value.endsWith('.png') &&
-                            !value.endsWith('.jpg') &&
-                            !value.endsWith('.jpeg')) {
-                          return 'رابط الصورة غير صحيح';
-                        }
-                        return null;
-                      },
-                      // onSaved: (value) {
-                      //   _editedProduct = Product(
-                      //     title: _editedProduct.title,
-                      //     price: _editedProduct.price,
-                      //     description: _editedProduct.description,
-                      //     imageUrl: value,
-                      //     id: _editedProduct.id,
-                      //     isFavorite: _editedProduct.isFavorite,
-                      //   );
-                      // },
-                    ),
                   ),
                 ],
               ),
+
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.end,
+              //   children: <Widget>[
+              //     Container(
+              //       width: 100,
+              //       height: 100,
+              //       margin: EdgeInsets.only(
+              //         top: 8,
+              //         right: 10,
+              //       ),
+              //       decoration: BoxDecoration(
+              //         border: Border.all(
+              //           width: 1,
+              //           color: Colors.grey,
+              //         ),
+              //       ),
+              //       child: _imageUrlController.text.isEmpty
+              //           ? Text('Enter a URL')
+              //           : FittedBox(
+              //               child: Image.network(
+              //                 _imageUrlController.text,
+              //                 fit: BoxFit.cover,
+              //               ),
+              //             ),
+              //     ),
+              //     Expanded(
+              //       child: TextFormField(
+              //         decoration:
+              //             InputDecoration(labelText: 'رابط صورة الحالة'),
+              //         keyboardType: TextInputType.url,
+              //         textInputAction: TextInputAction.done,
+              //         controller: _imageUrlController,
+              //         focusNode: _imageUrlFocusNode,
+              //         onFieldSubmitted: (_) {
+              //           // _saveForm();
+              //         },
+              //         validator: (value) {
+              //           if (value.isEmpty) {
+              //             return 'أدخل رابط الصورة';
+              //           }
+              //           if (!value.startsWith('http') &&
+              //               !value.startsWith('https')) {
+              //             return 'رابط الصورة غير صحيح';
+              //           }
+              //           if (!value.endsWith('.png') &&
+              //               !value.endsWith('.jpg') &&
+              //               !value.endsWith('.jpeg')) {
+              //             return 'رابط الصورة غير صحيح';
+              //           }
+              //           return null;
+              //         },
+              //         // onSaved: (value) {
+              //         //   _editedProduct = Product(
+              //         //     title: _editedProduct.title,
+              //         //     price: _editedProduct.price,
+              //         //     description: _editedProduct.description,
+              //         //     imageUrl: value,
+              //         //     id: _editedProduct.id,
+              //         //     isFavorite: _editedProduct.isFavorite,
+              //         //   );
+              //         // },
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

@@ -43,12 +43,12 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
               ),
               child: Container(
                 margin: EdgeInsets.fromLTRB(10, 20, 10, 50),
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/ARCADE FILMS .png',
-                    width: deviceSize.height * 0.3,
-                  ),
-                ),
+                // child: Center(
+                //   child: Image.asset(
+                //     'assets/images/ARCADE FILMS .png',
+                //     width: deviceSize.height * 0.3,
+                //   ),
+                // ),
               ),
             ),
             auth.status == Status.loading
@@ -80,18 +80,32 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
                               height: 50,
                             ),
                             TextFieldWidget(
-                              controller: emailController,
-                              deviceSize: deviceSize,
-                              labelText: 'Email',
-                              prefixIconData: Icons.person,
-                            ),
+                                controller: emailController,
+                                deviceSize: deviceSize,
+                                labelText: 'Email',
+                                maxLines: 1,
+                                prefixIconData: Icons.person,
+                                textDirection: TextDirection.ltr,
+                                validate: (value) {
+                                  if (!value.contains("@") ||
+                                      !value.contains(".") ||
+                                      value.isEmpty) {
+                                    return "Please enter a valid email address.";
+                                  }
+                                }),
                             TextFieldWidget(
-                              controller: passwordController,
-                              deviceSize: deviceSize,
-                              labelText: 'Password',
-                              prefixIconData: Icons.vpn_key,
-                              obscureText: true,
-                            ),
+                                controller: passwordController,
+                                deviceSize: deviceSize,
+                                labelText: 'Password',
+                                maxLines: 1,
+                                prefixIconData: Icons.vpn_key,
+                                textDirection: TextDirection.ltr,
+                                obscureText: true,
+                                validate: (value) {
+                                  if (value.isEmpty || value.length < 8) {
+                                    return "Password must be 8 characters or more.";
+                                  }
+                                }),
                             Container(
                               margin: const EdgeInsets.only(
                                 top: 45,

@@ -11,6 +11,16 @@ class TextFieldWidget extends StatelessWidget {
   final String labelText;
   final bool search;
   final Function onChanged;
+  /////////////////////
+  final Function validate;
+  final String initialValue;
+  final int maxLines;
+  final TextInputAction textInputAction;
+  final Function onFieldSubmitted;
+  final Function onSaved;
+  final TextDirection textDirection;
+  final TextInputType inputType;
+  final FocusNode focusNode;
 
   const TextFieldWidget({
     this.deviceSize,
@@ -19,9 +29,19 @@ class TextFieldWidget extends StatelessWidget {
     this.suffixIconData,
     this.suffixOnTap,
     this.onChanged,
+    this.validate,
     this.obscureText = false,
     this.labelText,
     this.search = false,
+    /////////////////////
+    this.initialValue,
+    this.focusNode,
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.onSaved,
+    this.textDirection,
+    this.inputType,
+    this.maxLines,
   });
 
   @override
@@ -39,30 +59,16 @@ class TextFieldWidget extends StatelessWidget {
           child: Theme(
             data: ThemeData(primaryColor: Colors.black26),
             child: Directionality(
-              textDirection: TextDirection.ltr,
+              textDirection: this.textDirection,
               child: TextFormField(
-                textAlign: TextAlign.left,
+                textAlign: (this.textDirection == TextDirection.ltr)
+                    ? TextAlign.left
+                    : TextAlign.right,
                 onChanged: onChanged != null ? onChanged : null,
                 obscureText: obscureText,
                 controller: controller,
                 // ignore: missing_return
-                validator: (String value) {
-                  if (labelText == "Email") {
-                    if (!value.contains("@") ||
-                        !value.contains(".") ||
-                        value.isEmpty) {
-                      return "Please enter a valid email address.";
-                    }
-                  } else if (labelText == "Username") {
-                    if (value.length < 4 || value.isEmpty) {
-                      return "Username must be 4 characters or more.";
-                    }
-                  } else if (labelText == "Password") {
-                    if (value.isEmpty || value.length < 8) {
-                      return "Password must be 8 characters or more.";
-                    }
-                  }
-                },
+                validator: validate,
                 decoration: InputDecoration(
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
@@ -89,6 +95,13 @@ class TextFieldWidget extends StatelessWidget {
                 ),
                 style: TextStyle(color: Colors.black87),
                 cursorColor: ConstantColors.purple,
+                initialValue: this.initialValue,
+                textInputAction: this.textInputAction,
+                onFieldSubmitted: this.onFieldSubmitted,
+                onSaved: this.onSaved,
+                keyboardType: this.inputType,
+                focusNode: this.focusNode,
+                maxLines: this.maxLines,
               ),
             ),
           ),
@@ -97,3 +110,21 @@ class TextFieldWidget extends StatelessWidget {
     );
   }
 }
+
+// (String value) {
+//                   if (labelText == "Email") {
+//                     if (!value.contains("@") ||
+//                         !value.contains(".") ||
+//                         value.isEmpty) {
+//                       return "Please enter a valid email address.";
+//                     }
+//                   } else if (labelText == "Username") {
+//                     if (value.length < 4 || value.isEmpty) {
+//                       return "Username must be 4 characters or more.";
+//                     }
+//                   } else if (labelText == "Password") {
+//                     if (value.isEmpty || value.length < 8) {
+//                       return "Password must be 8 characters or more.";
+//                     }
+//                   }
+//                 }
