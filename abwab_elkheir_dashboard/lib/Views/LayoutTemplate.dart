@@ -24,11 +24,7 @@ class _LayoutTemplateState extends State<LayoutTemplate> {
       builder: (context, sizingInformation) => Scaffold(
         key: _key,
         backgroundColor: Colors.black,
-        drawer: (sizingInformation.deviceScreenType ==
-                    DeviceScreenType.mobile ||
-                sizingInformation.deviceScreenType == DeviceScreenType.tablet)
-            ? NavigationDrawer()
-            : null,
+        drawer: NavigationDrawer(),
         body: Stack(
           children: [
             widget.child,

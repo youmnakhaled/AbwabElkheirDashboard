@@ -11,7 +11,9 @@ class NavigationBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenTypeLayout(
-      desktop: NavigationBarDesktopWidget(),
+      desktop: NavigationBarMobileWidget(
+        handleDrawer: handleDrawer,
+      ),
       tablet: NavigationBarMobileWidget(
         handleDrawer: handleDrawer,
       ),

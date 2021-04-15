@@ -1,11 +1,15 @@
+import 'package:flutter/material.dart';
+
 import 'package:abwab_elkheir_dashboard/Widgets/NavigationBarWidgets/Mobile/NavigationDrawerHeader.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/NavigationBarWidgets/Mobile/NavigationDrawerItem.dart';
-import 'package:flutter/material.dart';
+
+import 'package:vrouter/vrouter.dart';
 
 import '../../../Constants/ConstantColors.dart';
 import '../../../Constants/ConstantColors.dart';
 import '../../../Constants/ConstantColors.dart';
 import '../../TextFieldWidget.dart';
+import 'package:arabic_numbers/arabic_numbers.dart';
 
 class NavigationDrawer extends StatefulWidget {
   const NavigationDrawer({Key key}) : super(key: key);
@@ -17,6 +21,7 @@ class NavigationDrawer extends StatefulWidget {
 class _NavigationDrawerState extends State<NavigationDrawer> {
   DateTimeRange dateTimeRange;
   TextEditingController dateRangeController = TextEditingController();
+  ArabicNumbers arabicNumber = ArabicNumbers();
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +44,51 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             SizedBox(
               height: 50,
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              alignment: Alignment.topRight,
-              child: Text('البداية:'),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  alignment: Alignment.topRight,
+                  child: Text('البداية:'),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    dateTimeRange == null
+                        ? 'N/A'
+                        : arabicNumber.convert(
+                            dateTimeRange.start.day.toString() +
+                                ' - ' +
+                                dateTimeRange.start.month.toString() +
+                                ' - ' +
+                                dateTimeRange.start.year.toString()),
+                  ),
+                )
+              ],
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
-              alignment: Alignment.topRight,
-              child: Text('النهاية:'),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  alignment: Alignment.topRight,
+                  child: Text('النهاية:'),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    dateTimeRange == null
+                        ? 'N/A'
+                        : arabicNumber.convert(
+                            dateTimeRange.end.day.toString() +
+                                ' - ' +
+                                dateTimeRange.end.month.toString() +
+                                ' - ' +
+                                dateTimeRange.end.year.toString()),
+                  ),
+                )
+              ],
             ),
             Theme(
               data: Theme.of(context).copyWith(
@@ -77,7 +118,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                         textDirection: TextDirection.ltr,
                       );
 
-                      dateRangeController.text = dateTimeRange.start.toString();
+                      setState(() {});
                     },
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Constants/ConstantColors.dart';
 import 'package:arabic_numbers/arabic_numbers.dart';
+import 'package:vrouter/vrouter.dart';
 
 class ViewCasesScreenDesktop extends StatefulWidget {
   final deviceSize;
@@ -40,7 +41,27 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
     final deviceSize = widget.deviceSize;
     listener = Provider.of<CasesViewModel>(context, listen: true);
     return Scaffold(
-      //backgroundColor: Colors.black,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: ConstantColors.lightBlue,
+        onPressed: () {
+          context.vRouter.push("/addCase");
+        },
+        child: Icon(Icons.add, color: Colors.white),
+      ),
+      appBar: AppBar(
+        title: Text(""),
+        backgroundColor: ConstantColors.lightBlue,
+        // actions: [
+        //   IconButton(
+        //     padding: EdgeInsets.all(7),
+        //     icon: Icon(Icons.add),
+        //     onPressed: () {
+        //       // Navigator.of(context).pushNamed(EditProductScreen.routeName);
+        //       context.vRouter.push("/addCase");
+        //     },
+        //   ),
+        // ],
+      ),
       body: RefreshIndicator(
         color: ConstantColors.lightBlue,
         onRefresh: () async {

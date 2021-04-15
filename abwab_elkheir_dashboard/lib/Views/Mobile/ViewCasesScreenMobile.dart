@@ -3,6 +3,8 @@ import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vrouter/vrouter.dart';
+
 import '../../Constants/ConstantColors.dart';
 import 'package:arabic_numbers/arabic_numbers.dart';
 
@@ -32,7 +34,8 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
     super.initState();
   }
 
-  void selectCase(BuildContext context, int id) {
+  void selectCase(BuildContext context, String id) {
+    // context.vRouter.pushNamed("/addCase", queryParameters: {'id': id});
     // Navigator.of(context).pushNamed(CaseDetails.routeName, arguments: id);
   }
 
@@ -43,22 +46,26 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: ConstantColors.lightBlue,
-        onPressed: () {},
+        onPressed: () {
+          context.vRouter.push("/addCase");
+        },
         child: Icon(Icons.add, color: Colors.white),
       ),
       // backgroundColor: Colors.black,
       appBar: AppBar(
-          title: Text(""),
-          backgroundColor: ConstantColors.lightBlue,
-          actions: [
-            IconButton(
-              icon: Image.asset(
-                'assets/logo.png',
-                fit: BoxFit.fill,
-              ),
-              onPressed: null,
-            ),
-          ]),
+        title: Text(""),
+        backgroundColor: ConstantColors.lightBlue,
+        // actions: [
+        //   IconButton(
+        //     padding: EdgeInsets.all(7),
+        //     icon: Icon(Icons.add),
+        //     onPressed: () {
+        //       // Navigator.of(context).pushNamed(EditProductScreen.routeName);
+        //       context.vRouter.push("/addCase");
+        //     },
+        //   ),
+        // ],
+      ),
       body: RefreshIndicator(
         color: ConstantColors.lightBlue,
         onRefresh: () async {
@@ -83,7 +90,8 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
                         itemCount: listener.cases.length,
                         itemBuilder: (ctx, index) {
                           return InkWell(
-                            onTap: () => selectCase(ctx, index),
+                            onTap: () =>
+                                selectCase(ctx, listener.cases[index].id),
                             child: Container(
                               height: deviceSize.height * 0.22,
                               padding: EdgeInsets.all(5),
