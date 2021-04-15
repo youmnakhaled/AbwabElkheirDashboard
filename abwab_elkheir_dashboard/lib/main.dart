@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
             widget: LandingScreen(),
           ),
           VWidget(
-            path: '/addCase',
+            path: '/addCase/:id',
             widget: LayoutTemplate(
               child: AddCaseScreen(),
             ),
