@@ -9,8 +9,10 @@ import '../../Constants/ConstantColors.dart';
 
 class LandingScreenDesktop extends StatefulWidget {
   final deviceSize;
+  final void Function(BuildContext context) onLogin;
+  const LandingScreenDesktop({Key key, this.deviceSize, this.onLogin})
+      : super(key: key);
 
-  const LandingScreenDesktop({Key key, this.deviceSize}) : super(key: key);
   @override
   _LandingScreenDesktopState createState() => _LandingScreenDesktopState();
 }
@@ -19,6 +21,7 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
   final _formKey = GlobalKey<FormState>();
   AuthenticationViewModel auth;
   bool isLoading = false;
+
   @override
   void initState() {
     auth = Provider.of<AuthenticationViewModel>(context, listen: false);
@@ -86,14 +89,30 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
                               controller: emailController,
                               deviceSize: deviceSize,
                               labelText: 'Email',
+                              maxLines: 1,
+                              textDirection: TextDirection.ltr,
                               prefixIconData: Icons.person,
+                              validate: (value) {
+                                if (!value.contains("@") ||
+                                    !value.contains(".") ||
+                                    value.isEmpty) {
+                                  return "Please enter a valid email address.";
+                                }
+                              },
                             ),
                             TextFieldWidget(
                               controller: passwordController,
                               deviceSize: deviceSize,
                               labelText: 'Password',
+                              maxLines: 1,
+                              textDirection: TextDirection.ltr,
                               prefixIconData: Icons.vpn_key,
                               obscureText: true,
+                              validate: (value) {
+                                if (value.isEmpty || value.length < 8) {
+                                  return "Password must be 8 characters or more.";
+                                }
+                              },
                             ),
                             Container(
                               margin: const EdgeInsets.only(
@@ -114,6 +133,7 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
                                           passwordController.text,
                                           context);
                                       if (success) {
+                                        widget.onLogin(context);
                                         context.vRouter
                                             .pushReplacement("/cases");
                                         print('Success');

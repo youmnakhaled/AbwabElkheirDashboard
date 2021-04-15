@@ -6,7 +6,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 class LandingScreen extends StatefulWidget {
   static final routeName = "/landingScreen";
-
+  final void Function(BuildContext context) onLogin;
+  LandingScreen({this.onLogin});
   @override
   _LandingScreenState createState() => _LandingScreenState();
 }
@@ -28,7 +29,10 @@ class _LandingScreenState extends State<LandingScreen> {
         body: Container(
           height: deviceSize.height,
           child: ScreenTypeLayout(
-            desktop: LandingScreenDesktop(deviceSize: deviceSize),
+            desktop: LandingScreenDesktop(
+              deviceSize: deviceSize,
+              onLogin: widget.onLogin,
+            ),
             tablet: LandingScreenMobile(deviceSize: deviceSize),
             mobile: LandingScreenMobile(deviceSize: deviceSize),
           ),

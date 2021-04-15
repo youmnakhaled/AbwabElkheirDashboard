@@ -1,5 +1,6 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
+import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,9 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
   }
 
   void selectCase(BuildContext context, String id) {
-    // context.vRouter.pushNamed("/addCase", queryParameters: {'id': id});
+    // print("yaraabbbbbbbbbbb \n ");
+    // print(id);
+    // context.vRouter.pushNamed("/addCase", pathParameters: {'id': id});
     // Navigator.of(context).pushNamed(CaseDetails.routeName, arguments: id);
   }
 

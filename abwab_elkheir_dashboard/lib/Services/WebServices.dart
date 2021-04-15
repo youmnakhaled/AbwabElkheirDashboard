@@ -33,6 +33,86 @@ class WebServices {
     }
   }
 
+  Future<Map<String, dynamic>> addCase(
+      String title,
+      String description,
+      int totalPrice,
+      List<String> images,
+      bool isActive,
+      String status,
+      String category) async {
+    try {
+      final response = await Dio().post(
+        Endpoints.baseUrl + Endpoints.addCase,
+        data: json.encode(
+          {
+            "title": title,
+            "description": description,
+            "totalPrice": totalPrice,
+            "images": images,
+            "isActive": isActive,
+            "status": status,
+            "category": category
+          },
+        ),
+        options: Options(
+          validateStatus: (_) {
+            return true;
+          },
+        ),
+      );
+
+      if (response.statusCode != 200) {
+        throw HTTPException(response.data['message']).toString();
+      }
+      return response.data;
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
+  Future<Map<String, dynamic>> editCase(
+      String id,
+      String title,
+      String description,
+      int totalPrice,
+      List<String> images,
+      bool isActive,
+      String status,
+      String category) async {
+    try {
+      final response = await Dio().post(
+        Endpoints.baseUrl + Endpoints.editCase,
+        data: json.encode(
+          {
+            "_id": id,
+            "title": title,
+            "description": description,
+            "totalPrice": totalPrice,
+            "images": images,
+            "isActive": isActive,
+            "status": status,
+            "category": category
+          },
+        ),
+        options: Options(
+          validateStatus: (_) {
+            return true;
+          },
+        ),
+      );
+
+      if (response.statusCode != 200) {
+        throw HTTPException(response.data['message']).toString();
+      }
+      return response.data;
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
   Future<Map<String, dynamic>> fetchCases() async {
     try {
       final response = await http.get(
