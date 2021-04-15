@@ -5,16 +5,27 @@ import 'package:abwab_elkheir_dashboard/Views/LandingScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LayoutTemplate.dart';
 import 'package:abwab_elkheir_dashboard/Views/ViewCasesScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:vrouter/vrouter.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isLoggedIn = false;
+  void login(BuildContext context) {
+    isLoggedIn = true;
+    context.vRouter.push("/cases");
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -33,17 +44,6 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.black,
           accentColor: Colors.white,
         ),
-        // locale: const Locale("ar"),
-        // supportedLocales: [
-        //   Locale('en'),
-        //   Locale('ar'),
-        // ],
-        // localizationsDelegates: [
-        //   DemoLocalizations.delegate,
-        //   GlobalMaterialLocalizations.delegate,
-        //   GlobalWidgetsLocalizations.delegate,
-        //   GlobalCupertinoLocalizations.delegate,
-        // ],
         localizationsDelegates: [
           GlobalCupertinoLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
@@ -67,27 +67,30 @@ class MyApp extends StatelessWidget {
         routes: [
           VWidget(
             path: '/',
-            widget: LandingScreen(),
+            widget: LandingScreen(onLogin: login),
           ),
-          VWidget(
-            path: '/addCase/:id',
-            widget: LayoutTemplate(
-              child: AddCaseScreen(),
-            ),
+          VGuard(
+            beforeEnter: (vRedirector) async {
+              if (!isLoggedIn) {
+                print(isLoggedIn);
+                //vRedirector.push('/');
+              }
+            },
+            stackedRoutes: [
+              VWidget(
+                path: '/addCase',
+                widget: LayoutTemplate(
+                  child: AddCaseScreen(),
+                ),
+              ),
+              VWidget(
+                path: '/cases',
+                widget: LayoutTemplate(
+                  child: ViewCasesScreen(),
+                ),
+              ),
+            ],
           ),
-          VWidget(
-            path: '/cases',
-            widget: LayoutTemplate(
-              child: ViewCasesScreen(),
-            ),
-          ),
-          // VWidget(
-          //   path: '/notfound',
-          //   widget: LayoutTemplate(
-          //     child: ErrorView(),
-          //   ),
-          // ),
-
           VRouteRedirector(
             path: ':_(.*)',
             redirectTo: '/notfound',

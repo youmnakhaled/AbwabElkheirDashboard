@@ -7,8 +7,10 @@ import 'package:vrouter/vrouter.dart';
 
 class LandingScreenDesktop extends StatefulWidget {
   final deviceSize;
+  final void Function(BuildContext context) onLogin;
+  const LandingScreenDesktop({Key key, this.deviceSize, this.onLogin})
+      : super(key: key);
 
-  const LandingScreenDesktop({Key key, this.deviceSize}) : super(key: key);
   @override
   _LandingScreenDesktopState createState() => _LandingScreenDesktopState();
 }
@@ -17,6 +19,7 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
   final _formKey = GlobalKey<FormState>();
   AuthenticationViewModel auth;
   bool isLoading = false;
+
   @override
   void initState() {
     auth = Provider.of<AuthenticationViewModel>(context, listen: false);
@@ -111,6 +114,7 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
                                           passwordController.text,
                                           context);
                                       if (success) {
+                                        widget.onLogin(context);
                                         context.vRouter
                                             .pushReplacement("/cases");
                                         print('Success');
