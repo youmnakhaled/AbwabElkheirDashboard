@@ -32,8 +32,14 @@ class _LandingScreenState extends State<LandingScreen> {
               deviceSize: deviceSize,
               onLogin: widget.onLogin,
             ),
-            tablet: LandingScreenMobile(deviceSize: deviceSize),
-            mobile: LandingScreenMobile(deviceSize: deviceSize),
+            tablet: LandingScreenMobile(
+              deviceSize: deviceSize,
+              onLogin: widget.onLogin,
+            ),
+            mobile: LandingScreenMobile(
+              deviceSize: deviceSize,
+              onLogin: widget.onLogin,
+            ),
           ),
         ),
       );

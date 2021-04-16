@@ -7,8 +7,9 @@ import 'package:vrouter/vrouter.dart';
 
 class LandingScreenMobile extends StatefulWidget {
   final deviceSize;
-
-  const LandingScreenMobile({Key key, this.deviceSize}) : super(key: key);
+  final void Function(BuildContext context) onLogin;
+  const LandingScreenMobile({Key key, this.deviceSize, this.onLogin})
+      : super(key: key);
   @override
   _LandingScreenMobileState createState() => _LandingScreenMobileState();
 }
@@ -125,6 +126,7 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
                                           passwordController.text,
                                           context);
                                       if (success) {
+                                        widget.onLogin(context);
                                         context.vRouter
                                             .pushReplacement("/cases");
 

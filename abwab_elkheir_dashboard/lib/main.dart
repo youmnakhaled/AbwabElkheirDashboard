@@ -74,6 +74,7 @@ class _MyAppState extends State<MyApp> {
           VGuard(
             beforeEnter: (vRedirector) async {
               if (!isLoggedIn) {
+                context.vRouter.pushReplacement("/");
                 print(isLoggedIn);
               }
             },
