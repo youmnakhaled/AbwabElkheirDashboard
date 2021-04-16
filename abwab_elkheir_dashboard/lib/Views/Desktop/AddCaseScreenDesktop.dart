@@ -1,6 +1,7 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vrouter/vrouter.dart';
 
 class AddCaseScreenDesktop extends StatefulWidget {
   final deviceSize;
@@ -21,7 +22,8 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    // final deviceSize = widget.deviceSize;
+    print(context.vRouter.pathParameters['id']);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
