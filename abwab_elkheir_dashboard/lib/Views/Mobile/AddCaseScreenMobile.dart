@@ -1,6 +1,7 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 
@@ -38,11 +39,13 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
   Image _imageSelected;
 
   Future chooseImage() async {
-    final _image = await FlutterWebImagePicker.getImage;
-
+    //Image _image = await FlutterWebImagePicker.getImage;
+    final _picker = ImagePicker();
+    PickedFile image = await _picker.getImage(source: ImageSource.gallery);
     print("selectedddd");
+    print(image);
     setState(() {
-      _imageSelected = _image;
+      //_imageSelected = _image;
     });
   }
 

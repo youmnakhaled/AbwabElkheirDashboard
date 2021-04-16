@@ -4,4 +4,5 @@ class Endpoints {
   static const String cases = "cases";
   static String addCase = "cases/addCase";
   static String editCase = "cases/editCase";
+  static String getImageUrls = "admin/getImageUrls";
 }

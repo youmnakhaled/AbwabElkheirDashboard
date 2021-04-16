@@ -1,7 +1,9 @@
+import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:abwab_elkheir_dashboard/Widgets/NavigationBarWidgets/Mobile/NavigationDrawerHeader.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/NavigationBarWidgets/Mobile/NavigationDrawerItem.dart';
+import 'package:provider/provider.dart';
 
 import 'package:vrouter/vrouter.dart';
 
@@ -20,8 +22,21 @@ class NavigationDrawer extends StatefulWidget {
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
   DateTimeRange dateTimeRange;
-  TextEditingController dateRangeController = TextEditingController();
   ArabicNumbers arabicNumber = ArabicNumbers();
+  CasesViewModel casesViewModel;
+  final _statusFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    casesViewModel = Provider.of<CasesViewModel>(context, listen: false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _statusFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +114,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                   margin: EdgeInsets.fromLTRB(0, 0, 0, 30),
                   child: TextButton(
                     child: Text(
-                      'اختر الفترة الزمنية',
+                      'اختر الفترة  الزمنية',
                       style: TextStyle(
                           decoration: TextDecoration.underline,
                           color: Colors.blue),
@@ -118,7 +133,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                         textDirection: TextDirection.ltr,
                       );
 
-                      setState(() {});
+                      setState(() {
+                        casesViewModel
+                            .setStartDate(dateTimeRange.start.toString());
+                        casesViewModel.setEndDate(dateTimeRange.end.toString());
+                      });
                     },
                   ),
                 ),
@@ -130,13 +149,59 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
               child: Text('الحالة:'),
             ),
             Container(
+              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: Colors.black,
+                ),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              width: 200,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(_statusFocusNode);
+                    },
+                    isExpanded: true,
+                    elevation: 10,
+                    hint: Text(" درجة الحالة"),
+                    value: casesViewModel.getCasesStatus,
+                    items: <DropdownMenuItem>[
+                      DropdownMenuItem(
+                        value: "فى البداية",
+                        child: Text("فى البداية"),
+                      ),
+                      DropdownMenuItem(
+                        value: "قارب على الانتهاء ",
+                        child: Text("قارب على الانتهاء"),
+                      ),
+                      DropdownMenuItem(
+                        value: "جاري التجميع ",
+                        child: Text("جاري التجميع"),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        casesViewModel.setStatus(value);
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+            Container(
               margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
               child: ElevatedButton(
                 child: Text('بحث'),
                 style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(ConstantColors.lightBlue)),
-                onPressed: () {},
+                onPressed: () {
+                  casesViewModel.fetchCases(context);
+                },
               ),
               color: ConstantColors.lightBlue,
             ),

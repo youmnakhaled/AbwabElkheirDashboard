@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:abwab_elkheir_dashboard/Constants/Endpoints.dart';
 import 'package:abwab_elkheir_dashboard/Services/HTTPException.dart';
@@ -72,6 +73,38 @@ class WebServices {
     }
   }
 
+  Future<Map<String, dynamic>> getImagesUrls(
+    File image,
+    String token,
+  ) async {
+    try {
+      FormData formData = new FormData.fromMap(
+          {"picture": MultipartFile.fromFileSync(image.relativePath)});
+
+      final response = await Dio().post(
+        Endpoints.baseUrl + Endpoints.getImageUrls,
+        data: formData,
+        options: Options(
+          //contentType: "application/json",
+          validateStatus: (_) {
+            return true;
+          },
+          headers: {
+            "Authorization": "Bearer " + token,
+          },
+        ),
+      );
+
+      if (response.statusCode != 200) {
+        throw HTTPException(response.data['message']).toString();
+      }
+      return response.data;
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
   Future<Map<String, dynamic>> editCase(
       String id,
       String title,
@@ -113,17 +146,25 @@ class WebServices {
     }
   }
 
-  Future<Map<String, dynamic>> fetchCases() async {
+  Future<Map<String, dynamic>> fetchCases(
+      String status, String startDate, String endDate) async {
     try {
-      final response = await http.get(
+      final response = await Dio().get(
         Endpoints.baseUrl + Endpoints.cases,
+        queryParameters: {
+          "status": status,
+          "startDate": startDate,
+          "endDate": endDate,
+        },
       );
-      print(response);
+      print(response.data);
       Map<String, dynamic> results;
+      print('Status Code:' + response.statusCode.toString());
       if (response.statusCode == 200) {
         results = {
           "statusCode": 200,
-          "data": jsonDecode(response.body),
+          // "data": jsonDecode(response.data),
+          "data": response.data,
         };
       } else if (response.statusCode == 400) {
         results = {

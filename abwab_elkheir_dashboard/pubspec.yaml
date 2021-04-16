@@ -25,12 +25,13 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter  
-  dio: ^3.0.10
+  dio: ^4.0.0
   provider: ^5.0.0
   responsive_builder: ^0.3.0
   vrouter: ^1.1.0+15
-  http: ^0.12.1
+  http: ^0.13.0
   arabic_numbers: ^0.0.1
+  image_picker: ^0.7.4
 
 
 
