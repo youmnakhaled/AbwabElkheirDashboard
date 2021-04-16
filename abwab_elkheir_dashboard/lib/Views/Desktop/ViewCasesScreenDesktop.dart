@@ -34,7 +34,7 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
 
   void selectCase(BuildContext context, int id) {
     print(viewModel.cases[id].id);
-    context.vRouter.push("/addCase/${viewModel.cases[id].id}");
+    context.vRouter.push("/editCase/${viewModel.cases[id].id}");
   }
 
   @override
