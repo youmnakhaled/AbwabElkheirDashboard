@@ -73,12 +73,11 @@ class _MyAppState extends State<MyApp> {
             beforeEnter: (vRedirector) async {
               if (!isLoggedIn) {
                 print(isLoggedIn);
-                //vRedirector.push('/');
               }
             },
             stackedRoutes: [
               VWidget(
-                path: '/addCase',
+                path: '/addCase/:id',
                 widget: LayoutTemplate(
                   child: AddCaseScreen(),
                 ),
