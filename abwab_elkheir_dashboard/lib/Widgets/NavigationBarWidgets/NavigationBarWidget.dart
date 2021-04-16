@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'Desktop/NavigationBarDesktopWidget.dart';
-
 class NavigationBarWidget extends StatelessWidget {
   NavigationBarWidget({@required this.handleDrawer});
   final Function handleDrawer;

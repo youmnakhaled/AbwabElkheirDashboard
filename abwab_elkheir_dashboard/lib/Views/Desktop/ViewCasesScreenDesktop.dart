@@ -33,7 +33,8 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
   }
 
   void selectCase(BuildContext context, int id) {
-    // Navigator.of(context).pushNamed(CaseDetails.routeName, arguments: id);
+    print(viewModel.cases[id].id);
+    context.vRouter.push("/editCase/${viewModel.cases[id].id}");
   }
 
   @override
@@ -51,16 +52,6 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
       appBar: AppBar(
         title: Text(""),
         backgroundColor: ConstantColors.lightBlue,
-        // actions: [
-        //   IconButton(
-        //     padding: EdgeInsets.all(7),
-        //     icon: Icon(Icons.add),
-        //     onPressed: () {
-        //       // Navigator.of(context).pushNamed(EditProductScreen.routeName);
-        //       context.vRouter.push("/addCase");
-        //     },
-        //   ),
-        // ],
       ),
       body: RefreshIndicator(
         color: ConstantColors.lightBlue,

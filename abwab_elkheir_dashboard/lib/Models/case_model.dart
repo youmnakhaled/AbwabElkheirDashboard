@@ -26,7 +26,7 @@ class Case {
       category: json['category'],
       description: json['description'],
       status: json['status'],
-      id: json['id'],
+      id: json['_id'],
       isActive: json['isActive'],
       title: json['title'],
       totalPrice: json['totalPrice'],

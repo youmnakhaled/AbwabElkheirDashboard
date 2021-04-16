@@ -1,16 +1,17 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vrouter/vrouter.dart';
 
-class AddCaseScreenDesktop extends StatefulWidget {
+class EditCaseScreenDesktop extends StatefulWidget {
   final deviceSize;
 
-  const AddCaseScreenDesktop({Key key, this.deviceSize}) : super(key: key);
+  const EditCaseScreenDesktop({Key key, this.deviceSize}) : super(key: key);
   @override
-  _AddCaseScreenDesktopState createState() => _AddCaseScreenDesktopState();
+  _EditCaseScreenDesktopState createState() => _EditCaseScreenDesktopState();
 }
 
-class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
+class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
   AuthenticationViewModel auth;
   bool isLoading = false;
   @override
@@ -21,6 +22,8 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
 
   @override
   Widget build(BuildContext context) {
+    print(context.vRouter.pathParameters['id']);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(

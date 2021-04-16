@@ -1,4 +1,3 @@
-import 'package:abwab_elkheir_dashboard/Constants/ConstantColors.dart';
 import 'package:abwab_elkheir_dashboard/Views/Desktop/LandingScreenDesktop.dart';
 import 'package:abwab_elkheir_dashboard/Views/Mobile/LandingScreenMobile.dart';
 import 'package:flutter/material.dart';
@@ -33,8 +32,14 @@ class _LandingScreenState extends State<LandingScreen> {
               deviceSize: deviceSize,
               onLogin: widget.onLogin,
             ),
-            tablet: LandingScreenMobile(deviceSize: deviceSize),
-            mobile: LandingScreenMobile(deviceSize: deviceSize),
+            tablet: LandingScreenMobile(
+              deviceSize: deviceSize,
+              onLogin: widget.onLogin,
+            ),
+            mobile: LandingScreenMobile(
+              deviceSize: deviceSize,
+              onLogin: widget.onLogin,
+            ),
           ),
         ),
       );

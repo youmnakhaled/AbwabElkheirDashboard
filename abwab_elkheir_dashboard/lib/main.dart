@@ -1,6 +1,6 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
-import 'package:abwab_elkheir_dashboard/Views/AddCaseScreen.dart';
+import 'package:abwab_elkheir_dashboard/Views/EditCaseScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LandingScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LayoutTemplate.dart';
 import 'package:abwab_elkheir_dashboard/Views/ViewCasesScreen.dart';
@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:vrouter/vrouter.dart';
+
+import 'Views/AddCasesScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,14 +74,21 @@ class _MyAppState extends State<MyApp> {
           VGuard(
             beforeEnter: (vRedirector) async {
               if (!isLoggedIn) {
+                context.vRouter.pushReplacement("/");
                 print(isLoggedIn);
               }
             },
             stackedRoutes: [
               VWidget(
-                path: '/addCase/:id',
+                path: '/addCase',
                 widget: LayoutTemplate(
                   child: AddCaseScreen(),
+                ),
+              ),
+              VWidget(
+                path: '/editCase/:id',
+                widget: LayoutTemplate(
+                  child: EditCaseScreen(),
                 ),
               ),
               VWidget(
