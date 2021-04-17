@@ -35,10 +35,7 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
   }
 
   void selectCase(BuildContext context, String id) {
-    // print("yaraabbbbbbbbbbb \n ");
-    // print(id);
-    // context.vRouter.pushNamed("/addCase", pathParameters: {'id': id});
-    // Navigator.of(context).pushNamed(CaseDetails.routeName, arguments: id);
+    context.vRouter.push("/editCase/$id");
   }
 
   @override

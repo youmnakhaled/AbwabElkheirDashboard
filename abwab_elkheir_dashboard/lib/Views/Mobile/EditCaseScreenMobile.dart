@@ -1,10 +1,16 @@
+import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
+import 'dart:io';
+
 import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
-
+import 'package:vrouter/vrouter.dart';
+import '../../Models/case_model.dart';
 import '../../Constants/ConstantColors.dart';
+import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 
 class EditCaseScreenMobile extends StatefulWidget {
   final deviceSize;
@@ -28,7 +34,8 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
     'title': '',
     'description': '',
     'status': '',
-    'amount': '',
+    'imageUrl': [],
+    'price': 0,
   };
 
   final _priceFocusNode = FocusNode();
@@ -36,36 +43,23 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
   final _statusFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   Image _imageSelected;
+  var _isInit = true;
 
   Future chooseImage() async {
     final _image = await FlutterWebImagePicker.getImage;
-
+    // File file;
+    // FilePickerResult result = await FilePicker.platform.pickFiles(
+    //   withReadStream: true,
+    // );
+    // if (result != null) {
+    //   file = File(result.files.first.name);
+    // }
     print("selectedddd");
     setState(() {
       _imageSelected = _image;
     });
-  }
 
-  // void _updateImageUrl() {
-  //   if (!_imageUrlFocusNode.hasFocus) {
-  //     if ((!_imageUrlController.text.startsWith('http') &&
-  //             !_imageUrlController.text.startsWith('https')) ||
-  //         (!_imageUrlController.text.endsWith('.png') &&
-  //             !_imageUrlController.text.endsWith('.jpg') &&
-  //             !_imageUrlController.text.endsWith('.jpeg'))) {
-  //       return;
-  //     }
-  //     setState(() {});
-  //   }
-  // }
-
-  void _saveForm() {
-    final isValid = _form.currentState.validate();
-    if (!isValid) {
-      return;
-    }
-    _form.currentState.save();
-    Navigator.of(context).pop();
+    // get url request
   }
 
   @override
@@ -76,11 +70,65 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
     super.dispose();
   }
 
+  Case currentCase;
+  Case editedCase;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final id = context.vRouter.pathParameters['id'];
+      if (id != null) {
+        currentCase =
+            Provider.of<CasesViewModel>(context, listen: false).findById(id);
+        initValues = {
+          'title': currentCase.title,
+          'description': currentCase.description,
+          'price': currentCase.totalPrice,
+          'imageUrl': currentCase.images[0],
+          'status': currentCase.status,
+        };
+        editedCase = Case(
+          id: currentCase.id,
+          title: currentCase.title,
+          status: currentCase.status,
+          category: currentCase.category,
+          isActive: currentCase.isActive,
+          totalPrice: currentCase.totalPrice,
+          description: currentCase.description,
+          images: currentCase.images,
+        );
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  void _saveForm() {
+    final isValid = _form.currentState.validate();
+    if (!isValid) {
+      return;
+    }
+    _form.currentState.save();
+    editedCase = Case(
+      id: currentCase.id,
+      title: initValues['title'],
+      status: initValues['status'],
+      category: currentCase.category,
+      isActive: currentCase.isActive,
+      totalPrice: initValues['price'],
+      description: initValues['imageUrl'],
+      images: initValues['description'],
+    );
+
+    //  edit request
+    print("saving");
+    context.vRouter.pop();
+    // Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = widget.deviceSize;
-    //final id = context.vRouter.pathParameters['id'];
-    //final id = ModalRoute.of(context).settings.arguments as String;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -109,18 +157,22 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                     return null;
                   },
                   textDirection: TextDirection.rtl,
-                  // onSaved: (value) {
-                  //   _editedProduct = Product(
-                  //       title: value,
-                  //       price: _editedProduct.price,
-                  //       description: _editedProduct.description,
-                  //       imageUrl: _editedProduct.imageUrl,
-                  //       id: _editedProduct.id,
-                  //       isFavorite: _editedProduct.isFavorite);
-                  // },
+                  onSaved: (value) {
+                    initValues['title'] = value;
+                    // editedCase = Case(
+                    //   id: currentCase.id,
+                    //   title: value,
+                    //   status: currentCase.status,
+                    //   category: currentCase.category,
+                    //   isActive: currentCase.isActive,
+                    //   totalPrice: currentCase.totalPrice,
+                    //   description: currentCase.description,
+                    //   images: currentCase.images,
+                    // );
+                  },
                 ),
                 TextFieldWidget(
-                  initialValue: initValues['amount'],
+                  initialValue: initValues['price'].toString(),
                   textInputAction: TextInputAction.next,
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.number,
@@ -134,24 +186,27 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                     if (value.isEmpty) {
                       return 'أدخل المبلغ المطلوب للحالة';
                     }
-                    if (double.tryParse(value) == null) {
+                    if (int.tryParse(value) == null) {
                       return 'أدخل رقم صحيح لمبلغ الحالة ';
                     }
-                    if (double.parse(value) <= 0) {
+                    if (int.parse(value) <= 0) {
                       return 'يجب أن يكون المبلغ  من صفر.';
                     }
                     return null;
                   },
-
-                  // onSaved: (value) {
-                  //   _editedProduct = Product(
-                  //       title: _editedProduct.title,
-                  //       price: double.parse(value),
-                  //       description: _editedProduct.description,
-                  //       imageUrl: _editedProduct.imageUrl,
-                  //       id: _editedProduct.id,
-                  //       isFavorite: _editedProduct.isFavorite);
-                  // },
+                  onSaved: (value) {
+                    initValues['price'] = value;
+                    // editedCase = Case(
+                    //   id: currentCase.id,
+                    //   title: currentCase.title,
+                    //   status: currentCase.status,
+                    //   category: currentCase.category,
+                    //   isActive: currentCase.isActive,
+                    //   totalPrice: int.parse(value),
+                    //   description: currentCase.description,
+                    //   images: currentCase.images,
+                    // );
+                  },
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -180,22 +235,32 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                             : initValues['status'],
                         items: <DropdownMenuItem>[
                           DropdownMenuItem(
-                            value: "فى البداية",
-                            child: Text("فى البداية"),
+                            value: 'في البداية',
+                            child: Text('في البداية'),
                           ),
                           DropdownMenuItem(
-                            value: "قارب على الانتهاء ",
-                            child: Text("قارب على الانتهاء "),
+                            value: 'قارب على الانتهاء',
+                            child: Text('قارب على الانتهاء'),
                           ),
                           DropdownMenuItem(
-                            value: " جاري التجميع ",
-                            child: Text(" جاري التجميع "),
+                            value: 'جاري التجميع',
+                            child: Text('جاري التجميع'),
                           ),
                         ],
                         onChanged: (value) {
-                          setState(() {
-                            initValues['status'] = value;
-                          });
+                          initValues['status'] = value;
+                          // setState(() {
+                          //   editedCase = Case(
+                          //     id: currentCase.id,
+                          //     title: currentCase.title,
+                          //     status: value,
+                          //     category: currentCase.category,
+                          //     isActive: currentCase.isActive,
+                          //     totalPrice: currentCase.totalPrice,
+                          //     description: currentCase.description,
+                          //     images: currentCase.images,
+                          //   );
+                          // });
                         },
                       ),
                     ),
@@ -215,16 +280,9 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                     }
                     return null;
                   },
-                  // onSaved: (value) {
-                  //   _editedProduct = Product(
-                  //     title: _editedProduct.title,
-                  //     price: _editedProduct.price,
-                  //     description: value,
-                  //     imageUrl: _editedProduct.imageUrl,
-                  //     id: _editedProduct.id,
-                  //     isFavorite: _editedProduct.isFavorite,
-                  //   );
-                  // },
+                  onSaved: (value) {
+                    initValues['description'] = value;
+                  },
                 ),
                 SizedBox(
                   height: 50,
@@ -245,7 +303,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         child: _imageSelected == null
-                            ? Image.asset('assets/placeholder.png')
+                            ? Image.network(initValues['imageUrl'])
                             : Image(image: _imageSelected.image)),
                     Container(
                       width: deviceSize.width * 0.3 < 250

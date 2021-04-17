@@ -20,6 +20,10 @@ class CasesViewModel with ChangeNotifier {
     return endDate;
   }
 
+  Case findById(String id) {
+    return cases.firstWhere((current) => current.id == id);
+  }
+
   String get getCasesStatus {
     return casesStatus;
   }

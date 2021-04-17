@@ -1,6 +1,9 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
+import 'dart:io';
+import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
+
+// import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
@@ -29,14 +32,16 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
     'title': '',
     'description': '',
     'status': '',
-    'amount': '',
+    'imageUrl': [],
+    'price': 0,
   };
 
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _statusFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
-  Image _imageSelected;
+  // Image _imageSelected;
+  File imageSelected;
 
   Future chooseImage() async {
     //Image _image = await FlutterWebImagePicker.getImage;
@@ -45,29 +50,27 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
     print("selectedddd");
     print(image);
     setState(() {
-      //_imageSelected = _image;
+      imageSelected = File(image.path);
+      print(imageSelected);
     });
   }
 
-  // void _updateImageUrl() {
-  //   if (!_imageUrlFocusNode.hasFocus) {
-  //     if ((!_imageUrlController.text.startsWith('http') &&
-  //             !_imageUrlController.text.startsWith('https')) ||
-  //         (!_imageUrlController.text.endsWith('.png') &&
-  //             !_imageUrlController.text.endsWith('.jpg') &&
-  //             !_imageUrlController.text.endsWith('.jpeg'))) {
-  //       return;
-  //     }
-  //     setState(() {});
-  //   }
-  // }
-
+  Case newCase;
   void _saveForm() {
     final isValid = _form.currentState.validate();
     if (!isValid) {
       return;
     }
     _form.currentState.save();
+    // newCase = Case(
+    //   title: initValues['title'],
+    //   status: initValues['status'],
+    //   category: currentCase.category,
+    //   isActive: currentCase.isActive,
+    //   totalPrice: initValues['price'],
+    //   description: initValues['imageUrl'],
+    //   images: initValues['description'],
+    // );
     Navigator.of(context).pop();
   }
 
@@ -82,8 +85,6 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = widget.deviceSize;
-    //final id = context.vRouter.pathParameters['id'];
-    //final id = ModalRoute.of(context).settings.arguments as String;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -98,7 +99,6 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
             child: Column(
               children: <Widget>[
                 TextFieldWidget(
-                  initialValue: initValues['title'],
                   deviceSize: deviceSize,
                   labelText: 'عنوان الحالة',
                   textInputAction: TextInputAction.next,
@@ -112,18 +112,22 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                     return null;
                   },
                   textDirection: TextDirection.rtl,
-                  // onSaved: (value) {
-                  //   _editedProduct = Product(
-                  //       title: value,
-                  //       price: _editedProduct.price,
-                  //       description: _editedProduct.description,
-                  //       imageUrl: _editedProduct.imageUrl,
-                  //       id: _editedProduct.id,
-                  //       isFavorite: _editedProduct.isFavorite);
-                  // },
+                  onSaved: (value) {
+                    initValues['title'] = value;
+                    // editedCase = Case(
+                    //   id: currentCase.id,
+                    //   title: value,
+                    //   status: currentCase.status,
+                    //   category: currentCase.category,
+                    //   isActive: currentCase.isActive,
+                    //   totalPrice: currentCase.totalPrice,
+                    //   description: currentCase.description,
+                    //   images: currentCase.images,
+                    // );
+                  },
                 ),
                 TextFieldWidget(
-                  initialValue: initValues['amount'],
+                  // initialValue: initValues['amount'],
                   textInputAction: TextInputAction.next,
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.number,
@@ -137,24 +141,17 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                     if (value.isEmpty) {
                       return 'أدخل المبلغ المطلوب للحالة';
                     }
-                    if (double.tryParse(value) == null) {
+                    if (int.tryParse(value) == null) {
                       return 'أدخل رقم صحيح لمبلغ الحالة ';
                     }
-                    if (double.parse(value) <= 0) {
+                    if (int.parse(value) <= 0) {
                       return 'يجب أن يكون المبلغ  من صفر.';
                     }
                     return null;
                   },
-
-                  // onSaved: (value) {
-                  //   _editedProduct = Product(
-                  //       title: _editedProduct.title,
-                  //       price: double.parse(value),
-                  //       description: _editedProduct.description,
-                  //       imageUrl: _editedProduct.imageUrl,
-                  //       id: _editedProduct.id,
-                  //       isFavorite: _editedProduct.isFavorite);
-                  // },
+                  onSaved: (value) {
+                    initValues['price'] = value;
+                  },
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -178,9 +175,9 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                         isExpanded: true,
                         elevation: 10,
                         hint: Text(" درجة الحالة"),
-                        value: initValues['status'] == ''
-                            ? null
-                            : initValues['status'],
+                        // value: initValues['status'] == ''
+                        //     ? null
+                        //     : initValues['status'],
                         items: <DropdownMenuItem>[
                           DropdownMenuItem(
                             value: "فى البداية",
@@ -196,16 +193,16 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                           ),
                         ],
                         onChanged: (value) {
-                          setState(() {
-                            initValues['status'] = value;
-                          });
+                          // setState(() {
+                          initValues['status'] = value;
+                          // });
                         },
                       ),
                     ),
                   ),
                 ),
                 TextFieldWidget(
-                  initialValue: initValues['description'],
+                  // initialValue: initValues['description'],
                   deviceSize: deviceSize,
                   labelText: 'التفاصيل',
                   maxLines: 14,
@@ -218,16 +215,18 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                     }
                     return null;
                   },
-                  // onSaved: (value) {
-                  //   _editedProduct = Product(
-                  //     title: _editedProduct.title,
-                  //     price: _editedProduct.price,
-                  //     description: value,
-                  //     imageUrl: _editedProduct.imageUrl,
-                  //     id: _editedProduct.id,
-                  //     isFavorite: _editedProduct.isFavorite,
-                  //   );
-                  // },
+                  onSaved: (value) {
+                    initValues['description'] = value;
+                    //   _editedProduct = Product(
+                    //     title: _editedProduct.title,
+                    //     price: _editedProduct.price,
+                    //     description: value,
+                    //     imageUrl: _editedProduct.imageUrl,
+                    //     id: _editedProduct.id,
+                    //     isFavorite: _editedProduct.isFavorite,
+                    //   );
+                    // },
+                  },
                 ),
                 SizedBox(
                   height: 50,
@@ -236,20 +235,24 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                        width: deviceSize.width * 0.3 < 250
-                            ? 250
-                            : deviceSize.width * 0.3,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                          borderRadius: BorderRadius.circular(15.0),
+                      width: deviceSize.width * 0.3 < 250
+                          ? 250
+                          : deviceSize.width * 0.3,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey,
                         ),
-                        child: _imageSelected == null
-                            ? Image.asset('assets/placeholder.png')
-                            : Image(image: _imageSelected.image)),
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: imageSelected == null
+                          ? Image.asset('assets/placeholder.png')
+                          : Image.file(
+                              imageSelected,
+                              fit: BoxFit.contain,
+                            ),
+                    ),
                     Container(
                       width: deviceSize.width * 0.3 < 250
                           ? 250
