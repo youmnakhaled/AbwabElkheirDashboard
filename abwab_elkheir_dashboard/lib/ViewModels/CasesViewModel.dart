@@ -40,13 +40,13 @@ class CasesViewModel with ChangeNotifier {
     this.casesStatus = status;
   }
 
-  Future<void> fetchCases(BuildContext context) async {
+  Future<void> fetchCases(BuildContext context, String token) async {
     try {
       cases.clear();
       status = Status.loading;
       notifyListeners();
-      Map<String, dynamic> results =
-          await WebServices().fetchCases(casesStatus, startDate, endDate);
+      Map<String, dynamic> results = await WebServices()
+          .fetchCases(casesStatus, startDate, endDate, token);
       print(results);
       if (results['statusCode'] == 200) {
         for (int i = 0; i < results['data'].length; i++) {

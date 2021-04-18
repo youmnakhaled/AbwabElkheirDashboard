@@ -1,6 +1,7 @@
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
+import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,7 @@ class EditCaseScreenMobile extends StatefulWidget {
 
 class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
   AuthenticationViewModel auth;
-  AddCaseViewModel caseViewModel;
+  EditCaseViewModel caseViewModel;
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _statusFocusNode = FocusNode();
@@ -30,19 +31,9 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
   @override
   void initState() {
     auth = Provider.of<AuthenticationViewModel>(context, listen: false);
-    caseViewModel = Provider.of<AddCaseViewModel>(context, listen: false);
+    caseViewModel = Provider.of<EditCaseViewModel>(context, listen: false);
     currentCase = caseViewModel.currentCase;
     super.initState();
-  }
-
-  Future chooseImage() async {
-    final _picker = ImagePicker();
-    PickedFile image = await _picker.getImage(source: ImageSource.gallery);
-    caseViewModel.setImageToUpload(image);
-    await caseViewModel.addImage(context, auth.accessToken);
-    setState(() {
-      print('Image Selected:' + image.path);
-    });
   }
 
   @override
@@ -70,7 +61,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
         category: currentCase.category,
         id: currentCase.id,
         title: caseViewModel.editCaseTitleController.text,
-        totalPrice: int.parse(caseViewModel.editCaseTotalPriceController.text),
+        totalPrice: caseViewModel.editCaseTotalPriceController.text,
         status: caseViewModel.editCaseStatusController.text);
 
     caseViewModel.setCaseToEdit(editedCase);

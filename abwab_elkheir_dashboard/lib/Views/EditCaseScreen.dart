@@ -2,6 +2,7 @@ import 'package:abwab_elkheir_dashboard/Constants/ConstantColors.dart';
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
+import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/Views/Desktop/EditCaseScreenDesktop.dart';
 import 'package:abwab_elkheir_dashboard/Views/Mobile/EditCaseScreenMobile.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _EditCaseScreenState extends State<EditCaseScreen> {
   TextEditingController orderStatusController = TextEditingController();
   bool isFormChanged = false;
   Case currentCase;
-  AddCaseViewModel caseViewModel;
+  EditCaseViewModel caseViewModel;
   @override
   void initState() {
     // final id = context.vRouter.pathParameters['id'];
@@ -49,7 +50,7 @@ class _EditCaseScreenState extends State<EditCaseScreen> {
       if (id != null) {
         currentCase =
             Provider.of<CasesViewModel>(context, listen: false).findById(id);
-        caseViewModel = Provider.of<AddCaseViewModel>(context, listen: false);
+        caseViewModel = Provider.of<EditCaseViewModel>(context, listen: false);
         caseViewModel.currentCase = currentCase;
         caseViewModel.editCaseTitleController.text = currentCase.title;
         caseViewModel.editCaseDescriptionController.text =

@@ -29,7 +29,7 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
     viewModel = Provider.of<CasesViewModel>(context, listen: false);
     Future.microtask(
       () async {
-        viewModel.fetchCases(context);
+        viewModel.fetchCases(context, auth.accessToken);
       },
     );
     super.initState();
@@ -68,7 +68,7 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
       body: RefreshIndicator(
         color: ConstantColors.lightBlue,
         onRefresh: () async {
-          await viewModel.fetchCases(context);
+          await viewModel.fetchCases(context, auth.accessToken);
         },
         child: listener.status == Status.loading
             ? Center(

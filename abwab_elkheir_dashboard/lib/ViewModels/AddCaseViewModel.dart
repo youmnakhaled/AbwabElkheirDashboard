@@ -10,8 +10,7 @@ import 'package:flutter/material.dart';
 
 class AddCaseViewModel with ChangeNotifier {
   Case caseToAdd;
-  Case caseToEdit;
-  Case currentCase;
+
   Status status = Status.success;
   PickedFile imageToUpload;
 
@@ -20,21 +19,12 @@ class AddCaseViewModel with ChangeNotifier {
   TextEditingController addCaseTotalPriceController = TextEditingController();
   TextEditingController addCaseStatusController = TextEditingController();
 
-  TextEditingController editCaseTitleController = TextEditingController();
-  TextEditingController editCaseDescriptionController = TextEditingController();
-  TextEditingController editCaseTotalPriceController = TextEditingController();
-  TextEditingController editCaseStatusController = TextEditingController();
-
   void setImageToUpload(PickedFile imageFile) {
     imageToUpload = imageFile;
   }
 
   void setCaseToAdd(Case caseToAdd) {
     this.caseToAdd = caseToAdd;
-  }
-
-  void setCaseToEdit(Case caseToEdit) {
-    this.caseToEdit = caseToEdit;
   }
 
   get getImage {
@@ -75,7 +65,7 @@ class AddCaseViewModel with ChangeNotifier {
           [],
           true,
           caseToAdd.status,
-          caseToAdd.category);
+          token);
       print(results);
 
       if (results['statusCode'] == 400) {
@@ -85,35 +75,16 @@ class AddCaseViewModel with ChangeNotifier {
             context);
       }
 
-      status = Status.success;
-      notifyListeners();
-    } catch (error) {
-      return;
-    }
-  }
-
-  Future<void> editCase(BuildContext context, String token) async {
-    try {
-      status = Status.loading;
-      notifyListeners();
-      print('Adding');
-      Map<String, dynamic> results = await WebServices().editCase(
-          caseToEdit.id,
-          caseToEdit.title,
-          caseToEdit.description,
-          caseToEdit.totalPrice,
-          caseToEdit.images,
-          caseToEdit.isActive,
-          caseToEdit.status,
-          caseToEdit.category,
-          token);
-      print(results);
-
-      if (results['statusCode'] == 400) {
+      print(results['statusCode']);
+      if (results['statusCode'] == 201) {
         UtilityFunctions.showErrorDialog(
-            " خطأ",
-            " حدث خطأ ما ، يرجى المحاولة مرة أخرى والتحقق من اتصالك بالإنترنت",
-            context);
+            " تم الاضافة ", "تم اضافة الحالة بنجاح", context);
+
+        addCaseTitleController.clear();
+        addCaseDescriptionController.clear();
+        addCaseTotalPriceController.clear();
+        addCaseStatusController.clear();
+        caseToAdd = null;
       }
 
       status = Status.success;
