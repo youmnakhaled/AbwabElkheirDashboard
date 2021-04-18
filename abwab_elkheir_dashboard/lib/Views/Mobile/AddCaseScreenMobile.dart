@@ -123,10 +123,13 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                   if (value.isEmpty) {
                     return 'أدخل المبلغ المطلوب للحالة';
                   }
-                  if (int.tryParse(value) == null) {
+
+                  RegExp regExp = RegExp(r"^[٠-٩]+|^[0-9]+$");
+                  bool matches = regExp.hasMatch(value);
+                  if (!matches) {
                     return 'أدخل رقم صحيح لمبلغ الحالة ';
                   }
-                  if (int.parse(value) <= 0) {
+                  if (value == "0" || value == "٠") {
                     return 'يجب أن يكون المبلغ أكثر من صفر.';
                   }
                   return null;
