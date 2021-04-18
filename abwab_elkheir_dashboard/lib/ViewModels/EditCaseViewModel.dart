@@ -12,6 +12,7 @@ class EditCaseViewModel with ChangeNotifier {
   Case caseToEdit;
   Case currentCase;
   Status status = Status.success;
+  bool isChanged = false;
 
   TextEditingController editCaseTitleController = TextEditingController();
   TextEditingController editCaseDescriptionController = TextEditingController();
@@ -53,12 +54,11 @@ class EditCaseViewModel with ChangeNotifier {
 
         currentCase = caseToEdit;
         caseToEdit = null;
+        isChanged = false;
       }
 
       status = Status.success;
-      notifyListeners();
 
-      status = Status.success;
       notifyListeners();
     } catch (error) {
       return;

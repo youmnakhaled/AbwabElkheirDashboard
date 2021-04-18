@@ -92,6 +92,9 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                   deviceSize: deviceSize,
                   labelText: 'عنوان الحالة',
                   textInputAction: TextInputAction.next,
+                  onChanged: () {
+                    caseViewModel.isChanged = true;
+                  },
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_priceFocusNode);
                   },
@@ -109,6 +112,9 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                   textInputAction: TextInputAction.next,
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.number,
+                  onChanged: () {
+                    caseViewModel.isChanged = true;
+                  },
                   deviceSize: deviceSize,
                   labelText: ' المبلغ المطلوب',
                   focusNode: _priceFocusNode,
@@ -172,6 +178,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                         onChanged: (value) {
                           setState(() {
                             caseViewModel.editCaseStatusController.text = value;
+                            caseViewModel.isChanged = true;
                           });
                         },
                       ),
@@ -186,6 +193,9 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.multiline,
                   focusNode: _descriptionFocusNode,
+                  onChanged: () {
+                    caseViewModel.isChanged = true;
+                  },
                   validate: (value) {
                     if (value.isEmpty) {
                       return 'أدخل تفاصيل الحالة';

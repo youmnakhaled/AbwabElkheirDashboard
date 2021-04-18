@@ -1,15 +1,12 @@
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 import 'package:vrouter/vrouter.dart';
 import '../../Models/case_model.dart';
 import '../../Constants/ConstantColors.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 
 class EditCaseScreenDesktop extends StatefulWidget {
   final deviceSize;
@@ -89,6 +86,9 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                   controller: caseViewModel.editCaseTitleController,
                   isEnabled: false,
                   deviceSize: deviceSize,
+                  onChanged: () {
+                    caseViewModel.isChanged = true;
+                  },
                   labelText: 'عنوان الحالة',
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) {
@@ -108,6 +108,9 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                   textInputAction: TextInputAction.next,
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.number,
+                  onChanged: () {
+                    caseViewModel.isChanged = true;
+                  },
                   deviceSize: deviceSize,
                   labelText: ' المبلغ المطلوب',
                   focusNode: _priceFocusNode,
@@ -171,6 +174,7 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                         onChanged: (value) {
                           setState(() {
                             caseViewModel.editCaseStatusController.text = value;
+                            caseViewModel.isChanged = true;
                           });
                         },
                       ),
@@ -182,6 +186,9 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                   deviceSize: deviceSize,
                   labelText: 'التفاصيل',
                   maxLines: 14,
+                  onChanged: () {
+                    caseViewModel.isChanged = true;
+                  },
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.multiline,
                   focusNode: _descriptionFocusNode,

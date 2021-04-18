@@ -105,7 +105,6 @@ class WebServices {
     String token,
   ) async {
     try {
-      print(image);
       // var stream = new http.ByteStream(image.openRead());
       // stream.cast();
 
