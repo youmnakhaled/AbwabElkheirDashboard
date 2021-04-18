@@ -10,7 +10,6 @@ import 'dart:typed_data';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:async/async.dart';
 
 class WebServices {
   Future<Map<String, dynamic>> signIn(String email, String password) async {
@@ -82,6 +81,7 @@ class WebServices {
     }
   }
 
+  // ignore: missing_return
   Future<Map<String, dynamic>> getImagesUrls(
     PickedFile image,
     String token,
