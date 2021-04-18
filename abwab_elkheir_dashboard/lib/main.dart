@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> {
           ),
           VRouteRedirector(
             path: ':_(.*)',
-            redirectTo: '/notfound',
+            redirectTo: '/cases',
           ),
         ],
         debugShowCheckedModeBanner: false,

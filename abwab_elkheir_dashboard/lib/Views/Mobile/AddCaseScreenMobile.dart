@@ -1,9 +1,7 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
-import 'package:abwab_elkheir_dashboard/Widgets/NavigationBarWidgets/Mobile/NavigationDrawer.dart';
+
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
 
 // import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
