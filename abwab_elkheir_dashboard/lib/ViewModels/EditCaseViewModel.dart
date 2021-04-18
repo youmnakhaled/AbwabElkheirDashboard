@@ -1,7 +1,5 @@
 // import '../Constants/Endpoints.dart';
 
-import 'package:image_picker/image_picker.dart';
-
 import '../Constants/ConstantColors.dart';
 import '../Models/case_model.dart';
 import '../Services/WebServices.dart';

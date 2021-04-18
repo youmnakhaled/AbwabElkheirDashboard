@@ -1,9 +1,7 @@
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 import 'package:vrouter/vrouter.dart';
