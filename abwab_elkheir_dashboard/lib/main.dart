@@ -1,6 +1,7 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
+import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/Views/EditCaseScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LandingScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LayoutTemplate.dart';
@@ -41,6 +42,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider.value(
           value: AddCaseViewModel(),
+        ),
+        ChangeNotifierProvider.value(
+          value: EditCaseViewModel(),
         ),
       ],
       child: VRouter(

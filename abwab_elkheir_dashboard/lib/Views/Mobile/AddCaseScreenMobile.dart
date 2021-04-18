@@ -1,5 +1,6 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
+import 'package:arabic_numbers/arabic_numbers.dart';
 
 import 'package:flutter/material.dart';
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
@@ -67,10 +68,9 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
       title: caseViewModel.addCaseTitleController.text,
       description: caseViewModel.addCaseDescriptionController.text,
       status: caseViewModel.addCaseStatusController.text,
-      images: [],
+      images: ['7d77a888-ab0b-4944-b7b4-13f1f4267c88.jpg'],
       isActive: true,
-      totalPrice: int.parse(caseViewModel.addCaseTotalPriceController.text),
-      category: '',
+      totalPrice: caseViewModel.addCaseTotalPriceController.text,
     );
 
     caseViewModel.setCaseToAdd(caseToAdd);
@@ -160,16 +160,16 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                           : caseViewModel.addCaseStatusController.text,
                       items: <DropdownMenuItem>[
                         DropdownMenuItem(
-                          value: "فى البداية",
-                          child: Text("فى البداية"),
+                          value: "في البداية",
+                          child: Text("في البداية"),
                         ),
                         DropdownMenuItem(
-                          value: "قارب على الانتهاء ",
-                          child: Text("قارب على الانتهاء "),
+                          value: "قارب على الانتهاء",
+                          child: Text("قارب على الانتهاء"),
                         ),
                         DropdownMenuItem(
-                          value: " جاري التجميع ",
-                          child: Text(" جاري التجميع "),
+                          value: "جاري التجميع",
+                          child: Text("جاري التجميع"),
                         ),
                       ],
                       onChanged: (value) {

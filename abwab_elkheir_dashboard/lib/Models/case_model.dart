@@ -8,12 +8,12 @@ class Case {
   final String id;
   final String title;
   final String description;
-  final int totalPrice;
+  final String totalPrice;
   final String category;
 
   const Case({
     @required this.description,
-    @required this.category,
+    this.category,
     @required this.status,
     this.id,
     @required this.images,

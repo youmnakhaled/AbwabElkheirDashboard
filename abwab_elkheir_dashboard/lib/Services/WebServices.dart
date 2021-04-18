@@ -40,13 +40,14 @@ class WebServices {
   }
 
   Future<Map<String, dynamic>> addCase(
-      String title,
-      String description,
-      int totalPrice,
-      List<String> images,
-      bool isActive,
-      String status,
-      String category) async {
+    String title,
+    String description,
+    String totalPrice,
+    List<String> images,
+    bool isActive,
+    String status,
+    String token,
+  ) async {
     try {
       print('Adding web');
       final response = await Dio().post(
@@ -56,13 +57,15 @@ class WebServices {
             "title": title,
             "description": description,
             "totalPrice": totalPrice,
-            "images": images,
+            "images": ['7d77a888-ab0b-4944-b7b4-13f1f4267c88.jpg'],
             "isActive": isActive,
             "status": status,
-            "category": ''
           },
         ),
         options: Options(
+          headers: {
+            "Authorization": "Bearer " + token,
+          },
           validateStatus: (_) {
             return true;
           },
@@ -71,10 +74,25 @@ class WebServices {
 
       print(response.data);
 
-      if (response.statusCode != 200) {
-        throw HTTPException(response.data['message']).toString();
+      Map<String, dynamic> results;
+
+      if (response.statusCode == 201) {
+        results = {
+          "statusCode": 201,
+          "data": response.data,
+        };
+      } else if (response.statusCode == 400) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
+      } else if (response.statusCode == 404) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
       }
-      return response.data;
+      return results;
     } catch (error) {
       print(error);
       throw error;
@@ -133,7 +151,7 @@ class WebServices {
       String id,
       String title,
       String description,
-      int totalPrice,
+      String totalPrice,
       List<String> images,
       bool isActive,
       String status,
@@ -165,12 +183,25 @@ class WebServices {
         ),
       );
 
-      print(response.data);
+      Map<String, dynamic> results;
 
-      if (response.statusCode != 200) {
-        throw HTTPException(response.data['message']).toString();
+      if (response.statusCode == 201) {
+        results = {
+          "statusCode": 201,
+          "data": response.data,
+        };
+      } else if (response.statusCode == 400) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
+      } else if (response.statusCode == 404) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
       }
-      return response.data;
+      return results;
     } catch (error) {
       print(error);
       throw error;
@@ -178,10 +209,18 @@ class WebServices {
   }
 
   Future<Map<String, dynamic>> fetchCases(
-      String status, String startDate, String endDate) async {
+      String status, String startDate, String endDate, String token) async {
     try {
       final response = await Dio().get(
         Endpoints.baseUrl + Endpoints.cases,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer " + token,
+          },
+          validateStatus: (_) {
+            return true;
+          },
+        ),
         queryParameters: {
           "status": status,
           "startDate": startDate,

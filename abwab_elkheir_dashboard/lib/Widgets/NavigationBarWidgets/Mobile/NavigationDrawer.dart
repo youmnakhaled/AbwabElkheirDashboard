@@ -1,3 +1,4 @@
+import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 import 'package:flutter/material.dart';
 
@@ -18,11 +19,13 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   DateTimeRange dateTimeRange;
   ArabicNumbers arabicNumber = ArabicNumbers();
   CasesViewModel casesViewModel;
+  AuthenticationViewModel auth;
   final _statusFocusNode = FocusNode();
 
   @override
   void initState() {
     casesViewModel = Provider.of<CasesViewModel>(context, listen: false);
+    auth = Provider.of<AuthenticationViewModel>(context, listen: false);
     super.initState();
   }
 
@@ -194,7 +197,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                     backgroundColor:
                         MaterialStateProperty.all(ConstantColors.lightBlue)),
                 onPressed: () {
-                  casesViewModel.fetchCases(context);
+                  casesViewModel.fetchCases(context, auth.accessToken);
                 },
               ),
               color: ConstantColors.lightBlue,
