@@ -105,23 +105,42 @@ class WebServices {
     String token,
   ) async {
     try {
-      var stream = new http.ByteStream(image.openRead());
-      stream.cast();
+      print(image);
+      // var stream = new http.ByteStream(image.openRead());
+      // stream.cast();
 
-      var uri = Uri.parse(Endpoints.baseUrl + Endpoints.getImageUrls);
-      Uint8List imageBytes = await image.readAsBytes();
-      int length = imageBytes.length;
-      var request = new http.MultipartRequest("POST", uri);
-      var multipartFile = new http.MultipartFile('files', stream, length,
-          filename: basename(image.path),
-          contentType: MediaType('image', 'png'));
+      // var uri = Uri.parse(Endpoints.baseUrl + Endpoints.getImageUrls);
+      // Uint8List imageBytes = await image.readAsBytes();
+      // int length = imageBytes.length;
+      // var request = new http.MultipartRequest("POST", uri);
+      // var multipartFile = new http.MultipartFile('files', stream, length,
+      //     filename: basename(image.path),
+      //     contentType: MediaType('image', 'png'));
 
-      request.files.add(multipartFile);
-      var response = await request.send();
-      print(response.statusCode);
-      response.stream.transform(utf8.decoder).listen((value) {
-        print(value);
-      });
+      // request.files.add(multipartFile);
+      // var response = await request.send();
+      // print(response.statusCode);
+      // response.stream.transform(utf8.decoder).listen((value) {
+      //   print(value);
+      // });
+
+      final response = await Dio().post(
+        Endpoints.baseUrl + Endpoints.getImageUrls,
+        data: {
+          'images': [image.path],
+        },
+        options: Options(
+          //contentType: "application/json",
+          validateStatus: (_) {
+            return true;
+          },
+          headers: {
+            "Authorization": "Bearer " + token,
+          },
+        ),
+      );
+
+      print(response.data);
 
       // final response = await Dio().post(
       //   Endpoints.baseUrl + Endpoints.getImageUrls,
@@ -185,9 +204,9 @@ class WebServices {
 
       Map<String, dynamic> results;
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         results = {
-          "statusCode": 201,
+          "statusCode": 200,
           "data": response.data,
         };
       } else if (response.statusCode == 400) {

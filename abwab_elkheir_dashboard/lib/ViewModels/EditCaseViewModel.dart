@@ -47,14 +47,10 @@ class EditCaseViewModel with ChangeNotifier {
       }
 
       print(results['statusCode']);
-      if (results['statusCode'] == 201) {
+      if (results['statusCode'] == 200) {
         UtilityFunctions.showErrorDialog(
-            " تم الاضافة ", "تم اضافة الحالة بنجاح", context);
+            " تم التعديل ", "تم التعديل  بنجاح", context);
 
-        editCaseTitleController.clear();
-        editCaseDescriptionController.clear();
-        editCaseTotalPriceController.clear();
-        editCaseStatusController.clear();
         currentCase = caseToEdit;
         caseToEdit = null;
       }
