@@ -1,15 +1,12 @@
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 import 'package:vrouter/vrouter.dart';
 import '../../Models/case_model.dart';
 import '../../Constants/ConstantColors.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 
 class EditCaseScreenMobile extends StatefulWidget {
   final deviceSize;
@@ -125,10 +122,13 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                     if (value.isEmpty) {
                       return 'أدخل المبلغ المطلوب للحالة';
                     }
-                    if (int.tryParse(value) == null) {
+
+                    RegExp regExp = RegExp(r"^[٠-٩]+|^[0-9]+$");
+                    bool matches = regExp.hasMatch(value);
+                    if (!matches) {
                       return 'أدخل رقم صحيح لمبلغ الحالة ';
                     }
-                    if (int.parse(value) <= 0) {
+                    if (value == "0" || value == "٠") {
                       return 'يجب أن يكون المبلغ أكثر من صفر.';
                     }
                     return null;

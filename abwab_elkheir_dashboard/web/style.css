@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    margin:0;
+    padding: 0;
+  }
+  html{
+      height: 100%;
+  }
+.center {
+    width: 20%;
+    /* height: 25%; */
+}
+body {
+    height: 100%;
+    background-color:white;
+}
+#loadingScreen{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content:center;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    
+}
