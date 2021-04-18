@@ -8,7 +8,6 @@ import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 import 'package:vrouter/vrouter.dart';
 import '../../Models/case_model.dart';
 import '../../Constants/ConstantColors.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 
 class EditCaseScreenMobile extends StatefulWidget {
   final deviceSize;
