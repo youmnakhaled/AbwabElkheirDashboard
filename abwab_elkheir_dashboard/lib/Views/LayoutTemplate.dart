@@ -24,13 +24,13 @@ class _LayoutTemplateState extends State<LayoutTemplate> {
       builder: (context, sizingInformation) => Scaffold(
         key: _key,
         backgroundColor: Colors.black,
-        drawer: NavigationDrawer(),
+        //drawer: NavigationDrawer(),
         body: Stack(
           children: [
             widget.child,
-            NavigationBarWidget(
-              handleDrawer: handleDrawer,
-            ),
+            // NavigationBarWidget(
+            //   handleDrawer: handleDrawer,
+            // ),
           ],
         ),
       ),

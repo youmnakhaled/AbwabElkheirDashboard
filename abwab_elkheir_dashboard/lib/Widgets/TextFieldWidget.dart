@@ -21,10 +21,12 @@ class TextFieldWidget extends StatelessWidget {
   final TextDirection textDirection;
   final TextInputType inputType;
   final FocusNode focusNode;
+  final bool isEnabled;
 
   const TextFieldWidget({
     this.deviceSize,
     this.controller,
+    this.isEnabled = true,
     this.prefixIconData,
     this.suffixIconData,
     this.suffixOnTap,
@@ -61,6 +63,7 @@ class TextFieldWidget extends StatelessWidget {
             child: Directionality(
               textDirection: this.textDirection,
               child: TextFormField(
+                enabled: isEnabled,
                 textAlign: (this.textDirection == TextDirection.ltr)
                     ? TextAlign.left
                     : TextAlign.right,

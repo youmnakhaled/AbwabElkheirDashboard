@@ -15,7 +15,7 @@ class Case {
     @required this.description,
     @required this.category,
     @required this.status,
-    @required this.id,
+    this.id,
     @required this.images,
     @required this.isActive,
     @required this.title,

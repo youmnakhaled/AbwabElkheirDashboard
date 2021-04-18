@@ -1,5 +1,6 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
+import 'package:abwab_elkheir_dashboard/Widgets/NavigationBarWidgets/Mobile/NavigationDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Constants/ConstantColors.dart';
@@ -37,11 +38,14 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
     context.vRouter.push("/editCase/${viewModel.cases[id].id}");
   }
 
+  GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     final deviceSize = widget.deviceSize;
     listener = Provider.of<CasesViewModel>(context, listen: true);
     return Scaffold(
+      key: _key,
+      drawer: NavigationDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ConstantColors.lightBlue,
         onPressed: () {
@@ -52,6 +56,12 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
       appBar: AppBar(
         title: Text(""),
         backgroundColor: ConstantColors.lightBlue,
+        leading: IconButton(
+          icon: Icon(Icons.filter_alt_rounded, color: Colors.white),
+          onPressed: () {
+            _key.currentState.openDrawer();
+          },
+        ),
       ),
       body: RefreshIndicator(
         color: ConstantColors.lightBlue,

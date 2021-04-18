@@ -1,10 +1,8 @@
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
+import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
-import 'dart:io';
-
-import 'package:flutter_web_image_picker/flutter_web_image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 import 'package:vrouter/vrouter.dart';
@@ -22,44 +20,31 @@ class EditCaseScreenMobile extends StatefulWidget {
 
 class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
   AuthenticationViewModel auth;
+  AddCaseViewModel caseViewModel;
 
   bool isLoading = false;
   @override
   void initState() {
     auth = Provider.of<AuthenticationViewModel>(context, listen: false);
+    caseViewModel = Provider.of<AddCaseViewModel>(context, listen: false);
     super.initState();
   }
-
-  var initValues = {
-    'title': '',
-    'description': '',
-    'status': '',
-    'imageUrl': [],
-    'price': 0,
-  };
 
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _statusFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
-  Image _imageSelected;
+
   var _isInit = true;
 
   Future chooseImage() async {
-    final _image = await FlutterWebImagePicker.getImage;
-    // File file;
-    // FilePickerResult result = await FilePicker.platform.pickFiles(
-    //   withReadStream: true,
-    // );
-    // if (result != null) {
-    //   file = File(result.files.first.name);
-    // }
-    print("selectedddd");
+    final _picker = ImagePicker();
+    PickedFile image = await _picker.getImage(source: ImageSource.gallery);
+    caseViewModel.setImageToUpload(image);
+    await caseViewModel.addImage(context, auth.accessToken);
     setState(() {
-      _imageSelected = _image;
+      print('Image Selected:' + image.path);
     });
-
-    // get url request
   }
 
   @override
@@ -73,6 +58,11 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
   Case currentCase;
   Case editedCase;
 
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController totalPriceController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
+
   @override
   void didChangeDependencies() {
     if (_isInit) {
@@ -80,50 +70,37 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
       if (id != null) {
         currentCase =
             Provider.of<CasesViewModel>(context, listen: false).findById(id);
-        initValues = {
-          'title': currentCase.title,
-          'description': currentCase.description,
-          'price': currentCase.totalPrice,
-          'imageUrl': currentCase.images[0],
-          'status': currentCase.status,
-        };
-        editedCase = Case(
-          id: currentCase.id,
-          title: currentCase.title,
-          status: currentCase.status,
-          category: currentCase.category,
-          isActive: currentCase.isActive,
-          totalPrice: currentCase.totalPrice,
-          description: currentCase.description,
-          images: currentCase.images,
-        );
+
+        titleController.text = currentCase.title;
+        descriptionController.text = currentCase.description;
+        totalPriceController.text = currentCase.totalPrice.toString();
+        statusController.text = currentCase.status;
       }
     }
     _isInit = false;
     super.didChangeDependencies();
   }
 
-  void _saveForm() {
+  void _saveForm() async {
     final isValid = _form.currentState.validate();
     if (!isValid) {
       return;
     }
     _form.currentState.save();
-    editedCase = Case(
-      id: currentCase.id,
-      title: initValues['title'],
-      status: initValues['status'],
-      category: currentCase.category,
-      isActive: currentCase.isActive,
-      totalPrice: initValues['price'],
-      description: initValues['imageUrl'],
-      images: initValues['description'],
-    );
 
-    //  edit request
-    print("saving");
+    Case editedCase = Case(
+        description: descriptionController.text,
+        images: currentCase.images,
+        isActive: currentCase.isActive,
+        category: currentCase.category,
+        id: currentCase.id,
+        title: titleController.text,
+        totalPrice: int.parse(totalPriceController.text),
+        status: statusController.text);
+
+    caseViewModel.setCaseToEdit(editedCase);
+    await caseViewModel.editCase(context, auth.accessToken);
     context.vRouter.pop();
-    // Navigator.of(context).pop();
   }
 
   @override
@@ -132,6 +109,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: true,
         title: Text(""),
         backgroundColor: ConstantColors.lightBlue,
       ),
@@ -143,7 +121,8 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
             child: Column(
               children: <Widget>[
                 TextFieldWidget(
-                  initialValue: initValues['title'],
+                  controller: titleController,
+                  isEnabled: false,
                   deviceSize: deviceSize,
                   labelText: 'عنوان الحالة',
                   textInputAction: TextInputAction.next,
@@ -157,22 +136,10 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                     return null;
                   },
                   textDirection: TextDirection.rtl,
-                  onSaved: (value) {
-                    initValues['title'] = value;
-                    // editedCase = Case(
-                    //   id: currentCase.id,
-                    //   title: value,
-                    //   status: currentCase.status,
-                    //   category: currentCase.category,
-                    //   isActive: currentCase.isActive,
-                    //   totalPrice: currentCase.totalPrice,
-                    //   description: currentCase.description,
-                    //   images: currentCase.images,
-                    // );
-                  },
+                  onSaved: (value) {},
                 ),
                 TextFieldWidget(
-                  initialValue: initValues['price'].toString(),
+                  controller: totalPriceController,
                   textInputAction: TextInputAction.next,
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.number,
@@ -190,23 +157,11 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                       return 'أدخل رقم صحيح لمبلغ الحالة ';
                     }
                     if (int.parse(value) <= 0) {
-                      return 'يجب أن يكون المبلغ  من صفر.';
+                      return 'يجب أن يكون المبلغ أكثر من صفر.';
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    initValues['price'] = value;
-                    // editedCase = Case(
-                    //   id: currentCase.id,
-                    //   title: currentCase.title,
-                    //   status: currentCase.status,
-                    //   category: currentCase.category,
-                    //   isActive: currentCase.isActive,
-                    //   totalPrice: int.parse(value),
-                    //   description: currentCase.description,
-                    //   images: currentCase.images,
-                    // );
-                  },
+                  onSaved: (value) {},
                 ),
                 Container(
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -230,9 +185,9 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                         isExpanded: true,
                         elevation: 10,
                         hint: Text(" درجة الحالة"),
-                        value: initValues['status'] == ''
+                        value: statusController.text.isEmpty
                             ? null
-                            : initValues['status'],
+                            : statusController.text,
                         items: <DropdownMenuItem>[
                           DropdownMenuItem(
                             value: 'في البداية',
@@ -248,26 +203,16 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                           ),
                         ],
                         onChanged: (value) {
-                          initValues['status'] = value;
-                          // setState(() {
-                          //   editedCase = Case(
-                          //     id: currentCase.id,
-                          //     title: currentCase.title,
-                          //     status: value,
-                          //     category: currentCase.category,
-                          //     isActive: currentCase.isActive,
-                          //     totalPrice: currentCase.totalPrice,
-                          //     description: currentCase.description,
-                          //     images: currentCase.images,
-                          //   );
-                          // });
+                          setState(() {
+                            statusController.text = value;
+                          });
                         },
                       ),
                     ),
                   ),
                 ),
                 TextFieldWidget(
-                  initialValue: initValues['description'],
+                  controller: descriptionController,
                   deviceSize: deviceSize,
                   labelText: 'التفاصيل',
                   maxLines: 14,
@@ -280,9 +225,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                     }
                     return null;
                   },
-                  onSaved: (value) {
-                    initValues['description'] = value;
-                  },
+                  onSaved: (value) {},
                 ),
                 SizedBox(
                   height: 50,
@@ -291,43 +234,42 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                        width: deviceSize.width * 0.3 < 250
-                            ? 250
-                            : deviceSize.width * 0.3,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: _imageSelected == null
-                            ? Image.network(initValues['imageUrl'])
-                            : Image(image: _imageSelected.image)),
-                    Container(
                       width: deviceSize.width * 0.3 < 250
                           ? 250
                           : deviceSize.width * 0.3,
-                      margin: EdgeInsets.all(deviceSize.height * 0.01),
-                      child: Theme(
-                        data: ThemeData(primaryColor: Colors.black26),
-                        child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Expanded(
-                              child: TextButton.icon(
-                                onPressed: chooseImage,
-                                icon: Icon(Icons.upload_rounded),
-                                label: Text(
-                                  'اختار صورة للحالة',
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      decoration: TextDecoration.underline),
-                                ),
-                              ),
-                            )),
+                      height: 200,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
+                      child: currentCase.images[0] == null
+                          ? Image.asset('assets/placeholder.png')
+                          : Image.network(currentCase.images[0]),
                     ),
+                    // Container(
+                    //   width: deviceSize.width * 0.3 < 250
+                    //       ? 250
+                    //       : deviceSize.width * 0.3,
+                    //   margin: EdgeInsets.all(deviceSize.height * 0.01),
+                    //   child: Theme(
+                    //     data: ThemeData(primaryColor: Colors.black26),
+                    //     child: Directionality(
+                    //         textDirection: TextDirection.rtl,
+                    //         child: TextButton.icon(
+                    //           onPressed: chooseImage,
+                    //           icon: Icon(Icons.upload_rounded),
+                    //           label: Text(
+                    //             'اختار صورة للحالة',
+                    //             style: TextStyle(
+                    //                 color: Colors.blue,
+                    //                 decoration: TextDecoration.underline),
+                    //           ),
+                    //         )),
+                    //   ),
+                    // ),
                   ],
                 ),
                 Container(

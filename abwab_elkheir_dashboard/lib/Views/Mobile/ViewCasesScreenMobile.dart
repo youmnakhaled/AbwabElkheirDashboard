@@ -1,5 +1,6 @@
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
+import 'package:abwab_elkheir_dashboard/Widgets/NavigationBarWidgets/Mobile/NavigationDrawer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,11 +39,14 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
     context.vRouter.push("/editCase/$id");
   }
 
+  GlobalKey<ScaffoldState> _key = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     final deviceSize = widget.deviceSize;
     listener = Provider.of<CasesViewModel>(context, listen: true);
     return Scaffold(
+      key: _key,
+      drawer: NavigationDrawer(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: ConstantColors.lightBlue,
         onPressed: () {
@@ -54,16 +58,12 @@ class _ViewCasesScreenMobileState extends State<ViewCasesScreenMobile> {
       appBar: AppBar(
         title: Text(""),
         backgroundColor: ConstantColors.lightBlue,
-        // actions: [
-        //   IconButton(
-        //     padding: EdgeInsets.all(7),
-        //     icon: Icon(Icons.add),
-        //     onPressed: () {
-        //       // Navigator.of(context).pushNamed(EditProductScreen.routeName);
-        //       context.vRouter.push("/addCase");
-        //     },
-        //   ),
-        // ],
+        leading: IconButton(
+          icon: Icon(Icons.filter_alt_rounded, color: Colors.white),
+          onPressed: () {
+            _key.currentState.openDrawer();
+          },
+        ),
       ),
       body: RefreshIndicator(
         color: ConstantColors.lightBlue,
