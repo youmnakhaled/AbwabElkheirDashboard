@@ -21,21 +21,19 @@ class EditCaseScreenMobile extends StatefulWidget {
 class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
   AuthenticationViewModel auth;
   AddCaseViewModel caseViewModel;
+  final _priceFocusNode = FocusNode();
+  final _descriptionFocusNode = FocusNode();
+  final _statusFocusNode = FocusNode();
+  final _form = GlobalKey<FormState>();
 
   bool isLoading = false;
   @override
   void initState() {
     auth = Provider.of<AuthenticationViewModel>(context, listen: false);
     caseViewModel = Provider.of<AddCaseViewModel>(context, listen: false);
+    currentCase = caseViewModel.currentCase;
     super.initState();
   }
-
-  final _priceFocusNode = FocusNode();
-  final _descriptionFocusNode = FocusNode();
-  final _statusFocusNode = FocusNode();
-  final _form = GlobalKey<FormState>();
-
-  var _isInit = true;
 
   Future chooseImage() async {
     final _picker = ImagePicker();
@@ -58,29 +56,6 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
   Case currentCase;
   Case editedCase;
 
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController totalPriceController = TextEditingController();
-  TextEditingController statusController = TextEditingController();
-
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      final id = context.vRouter.pathParameters['id'];
-      if (id != null) {
-        currentCase =
-            Provider.of<CasesViewModel>(context, listen: false).findById(id);
-
-        titleController.text = currentCase.title;
-        descriptionController.text = currentCase.description;
-        totalPriceController.text = currentCase.totalPrice.toString();
-        statusController.text = currentCase.status;
-      }
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
   void _saveForm() async {
     final isValid = _form.currentState.validate();
     if (!isValid) {
@@ -89,14 +64,14 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
     _form.currentState.save();
 
     Case editedCase = Case(
-        description: descriptionController.text,
+        description: caseViewModel.editCaseDescriptionController.text,
         images: currentCase.images,
         isActive: currentCase.isActive,
         category: currentCase.category,
         id: currentCase.id,
-        title: titleController.text,
-        totalPrice: int.parse(totalPriceController.text),
-        status: statusController.text);
+        title: caseViewModel.editCaseTitleController.text,
+        totalPrice: int.parse(caseViewModel.editCaseTotalPriceController.text),
+        status: caseViewModel.editCaseStatusController.text);
 
     caseViewModel.setCaseToEdit(editedCase);
     await caseViewModel.editCase(context, auth.accessToken);
@@ -121,7 +96,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
             child: Column(
               children: <Widget>[
                 TextFieldWidget(
-                  controller: titleController,
+                  controller: caseViewModel.editCaseTitleController,
                   isEnabled: false,
                   deviceSize: deviceSize,
                   labelText: 'عنوان الحالة',
@@ -139,7 +114,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                   onSaved: (value) {},
                 ),
                 TextFieldWidget(
-                  controller: totalPriceController,
+                  controller: caseViewModel.editCaseTotalPriceController,
                   textInputAction: TextInputAction.next,
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.number,
@@ -185,9 +160,10 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                         isExpanded: true,
                         elevation: 10,
                         hint: Text(" درجة الحالة"),
-                        value: statusController.text.isEmpty
-                            ? null
-                            : statusController.text,
+                        value:
+                            caseViewModel.editCaseStatusController.text.isEmpty
+                                ? null
+                                : caseViewModel.editCaseStatusController.text,
                         items: <DropdownMenuItem>[
                           DropdownMenuItem(
                             value: 'في البداية',
@@ -204,7 +180,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                         ],
                         onChanged: (value) {
                           setState(() {
-                            statusController.text = value;
+                            caseViewModel.editCaseStatusController.text = value;
                           });
                         },
                       ),
@@ -212,7 +188,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                   ),
                 ),
                 TextFieldWidget(
-                  controller: descriptionController,
+                  controller: caseViewModel.editCaseDescriptionController,
                   deviceSize: deviceSize,
                   labelText: 'التفاصيل',
                   maxLines: 14,

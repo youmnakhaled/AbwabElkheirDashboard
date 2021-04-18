@@ -26,6 +26,12 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
   AddCaseViewModel caseViewModel;
 
   bool isLoading = false;
+
+  final _priceFocusNode = FocusNode();
+  final _descriptionFocusNode = FocusNode();
+  final _statusFocusNode = FocusNode();
+  final _form = GlobalKey<FormState>();
+
   @override
   void initState() {
     auth = Provider.of<AuthenticationViewModel>(context, listen: false);
@@ -33,23 +39,13 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
     super.initState();
   }
 
-  var initValues = {
-    'title': '',
-    'description': '',
-    'status': '',
-    'imageUrl': [],
-    'price': 0,
-  };
-
-  final _priceFocusNode = FocusNode();
-  final _descriptionFocusNode = FocusNode();
-  final _statusFocusNode = FocusNode();
-  final _form = GlobalKey<FormState>();
-
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController totalPriceController = TextEditingController();
-  TextEditingController statusController = TextEditingController();
+  @override
+  void dispose() {
+    _priceFocusNode.dispose();
+    _statusFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+    super.dispose();
+  }
 
   Future chooseImage() async {
     final _picker = ImagePicker();
@@ -70,26 +66,18 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
 
     _form.currentState.save();
     Case caseToAdd = Case(
-      title: titleController.text,
-      description: descriptionController.text,
-      status: statusController.text,
+      title: caseViewModel.addCaseTitleController.text,
+      description: caseViewModel.addCaseDescriptionController.text,
+      status: caseViewModel.addCaseStatusController.text,
       images: [],
       isActive: true,
-      totalPrice: int.parse(totalPriceController.text),
+      totalPrice: int.parse(caseViewModel.addCaseTotalPriceController.text),
       category: '',
     );
 
     caseViewModel.setCaseToAdd(caseToAdd);
     caseViewModel.addCase(context, auth.accessToken);
     Navigator.of(context).pop();
-  }
-
-  @override
-  void dispose() {
-    _priceFocusNode.dispose();
-    _statusFocusNode.dispose();
-    _descriptionFocusNode.dispose();
-    super.dispose();
   }
 
   @override
@@ -107,7 +95,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
           child: Column(
             children: <Widget>[
               TextFieldWidget(
-                controller: titleController,
+                controller: caseViewModel.addCaseTitleController,
                 deviceSize: deviceSize,
                 labelText: 'عنوان الحالة',
                 textInputAction: TextInputAction.next,
@@ -121,12 +109,10 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                   return null;
                 },
                 textDirection: TextDirection.rtl,
-                onSaved: (value) {
-                  initValues['title'] = value;
-                },
+                onSaved: (value) {},
               ),
               TextFieldWidget(
-                controller: totalPriceController,
+                controller: caseViewModel.addCaseTotalPriceController,
                 textInputAction: TextInputAction.next,
                 textDirection: TextDirection.rtl,
                 inputType: TextInputType.number,
@@ -148,9 +134,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                   }
                   return null;
                 },
-                onSaved: (value) {
-                  initValues['price'] = value;
-                },
+                onSaved: (value) {},
               ),
               Container(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -173,9 +157,9 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                       isExpanded: true,
                       elevation: 10,
                       hint: Text(" درجة الحالة"),
-                      value: statusController.text.isEmpty
+                      value: caseViewModel.addCaseStatusController.text.isEmpty
                           ? null
-                          : statusController.text,
+                          : caseViewModel.addCaseStatusController.text,
                       items: <DropdownMenuItem>[
                         DropdownMenuItem(
                           value: "فى البداية",
@@ -192,7 +176,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                       ],
                       onChanged: (value) {
                         setState(() {
-                          statusController.text = value;
+                          caseViewModel.addCaseStatusController.text = value;
                         });
                       },
                     ),
@@ -201,7 +185,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
               ),
               TextFieldWidget(
                 // initialValue: initValues['description'],
-                controller: descriptionController,
+                controller: caseViewModel.addCaseDescriptionController,
                 deviceSize: deviceSize,
                 labelText: 'التفاصيل',
                 maxLines: 14,
@@ -214,9 +198,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                   }
                   return null;
                 },
-                onSaved: (value) {
-                  initValues['description'] = value;
-                },
+                onSaved: (value) {},
               ),
               SizedBox(
                 height: 50,

@@ -13,8 +13,19 @@ import 'package:flutter/material.dart';
 class AddCaseViewModel with ChangeNotifier {
   Case caseToAdd;
   Case caseToEdit;
+  Case currentCase;
   Status status = Status.success;
   PickedFile imageToUpload;
+
+  TextEditingController addCaseTitleController = TextEditingController();
+  TextEditingController addCaseDescriptionController = TextEditingController();
+  TextEditingController addCaseTotalPriceController = TextEditingController();
+  TextEditingController addCaseStatusController = TextEditingController();
+
+  TextEditingController editCaseTitleController = TextEditingController();
+  TextEditingController editCaseDescriptionController = TextEditingController();
+  TextEditingController editCaseTotalPriceController = TextEditingController();
+  TextEditingController editCaseStatusController = TextEditingController();
 
   void setImageToUpload(PickedFile imageFile) {
     imageToUpload = imageFile;
