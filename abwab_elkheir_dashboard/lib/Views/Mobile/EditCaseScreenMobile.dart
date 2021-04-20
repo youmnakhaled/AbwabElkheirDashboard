@@ -259,7 +259,9 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                     child: Text('حفظ'),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            ConstantColors.lightBlue)),
+                            caseViewModel.isChanged
+                                ? ConstantColors.lightBlue
+                                : Colors.grey)),
                   ),
                 )
               ],
