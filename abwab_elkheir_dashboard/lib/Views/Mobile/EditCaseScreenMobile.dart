@@ -1,4 +1,5 @@
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
+import 'package:abwab_elkheir_dashboard/Services/UtilityFunctions.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,8 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
   final _descriptionFocusNode = FocusNode();
   final _statusFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
+  Case currentCase;
+  Case editedCase;
 
   bool isLoading = false;
   @override
@@ -41,9 +44,6 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
     super.dispose();
   }
 
-  Case currentCase;
-  Case editedCase;
-
   void _saveForm() async {
     final isValid = _form.currentState.validate();
     if (!isValid) {
@@ -58,7 +58,7 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
         category: currentCase.category,
         id: currentCase.id,
         title: caseViewModel.editCaseTitleController.text,
-        totalPrice: caseViewModel.editCaseTotalPriceController.text,
+        totalPrice: caseViewModel.editCaseTotalPrice,
         status: caseViewModel.editCaseStatusController.text);
 
     caseViewModel.setCaseToEdit(editedCase);
@@ -87,11 +87,13 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                   controller: caseViewModel.editCaseTitleController,
                   isEnabled: false,
                   deviceSize: deviceSize,
+                  onChanged: (value) {
+                    setState(() {
+                      caseViewModel.isChanged = true;
+                    });
+                  },
                   labelText: 'عنوان الحالة',
                   textInputAction: TextInputAction.next,
-                  onChanged: () {
-                    caseViewModel.isChanged = true;
-                  },
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_priceFocusNode);
                   },
@@ -105,12 +107,18 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                   onSaved: (value) {},
                 ),
                 TextFieldWidget(
-                  controller: caseViewModel.editCaseTotalPriceController,
+                  // controller: caseViewModel.editCaseTotalPriceController,
+                  initialValue: caseViewModel.editCaseTotalPrice.toString(),
                   textInputAction: TextInputAction.next,
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.number,
-                  onChanged: () {
-                    caseViewModel.isChanged = true;
+                  onChanged: (value) {
+                    setState(() {
+                      String engAmount =
+                          UtilityFunctions.convertNumberToEnglish(value);
+                      caseViewModel.editCaseTotalPrice = int.parse(engAmount);
+                      caseViewModel.isChanged = true;
+                    });
                   },
                   deviceSize: deviceSize,
                   labelText: ' المبلغ المطلوب',
@@ -128,8 +136,15 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                     if (!matches) {
                       return 'أدخل رقم صحيح لمبلغ الحالة ';
                     }
-                    if (value == "0" || value == "٠") {
+                    // if (value == "0" || value == "٠") {
+                    //   return 'يجب أن يكون المبلغ أكثر من صفر.';
+                    // }
+                    value = UtilityFunctions.convertNumberToEnglish(value);
+                    if (value == "0") {
                       return 'يجب أن يكون المبلغ أكثر من صفر.';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'يجب أن يكون المبلغ رقم صحيح .';
                     }
                     return null;
                   },
@@ -190,12 +205,15 @@ class _EditCaseScreenMobileState extends State<EditCaseScreenMobile> {
                   deviceSize: deviceSize,
                   labelText: 'التفاصيل',
                   maxLines: 14,
+                  onChanged: (value) {
+                    setState(() {
+                      // caseViewModel.editCaseDescriptionController = value;
+                      caseViewModel.isChanged = true;
+                    });
+                  },
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.multiline,
                   focusNode: _descriptionFocusNode,
-                  onChanged: () {
-                    caseViewModel.isChanged = true;
-                  },
                   validate: (value) {
                     if (value.isEmpty) {
                       return 'أدخل تفاصيل الحالة';

@@ -54,8 +54,7 @@ class _EditCaseScreenState extends State<EditCaseScreen> {
         caseViewModel.editCaseTitleController.text = currentCase.title;
         caseViewModel.editCaseDescriptionController.text =
             currentCase.description;
-        caseViewModel.editCaseTotalPriceController.text =
-            currentCase.totalPrice.toString();
+        caseViewModel.editCaseTotalPrice = currentCase.totalPrice;
         caseViewModel.editCaseStatusController.text = currentCase.status;
       }
     }

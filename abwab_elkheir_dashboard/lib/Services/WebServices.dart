@@ -42,7 +42,7 @@ class WebServices {
   Future<Map<String, dynamic>> addCase(
     String title,
     String description,
-    String totalPrice,
+    int totalPrice,
     List<String> images,
     bool isActive,
     String status,
@@ -169,7 +169,7 @@ class WebServices {
       String id,
       String title,
       String description,
-      String totalPrice,
+      int totalPrice,
       List<String> images,
       bool isActive,
       String status,

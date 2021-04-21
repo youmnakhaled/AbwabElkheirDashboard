@@ -16,7 +16,7 @@ class AddCaseViewModel with ChangeNotifier {
 
   TextEditingController addCaseTitleController = TextEditingController();
   TextEditingController addCaseDescriptionController = TextEditingController();
-  TextEditingController addCaseTotalPriceController = TextEditingController();
+  int addCaseTotalPrice;
   TextEditingController addCaseStatusController = TextEditingController();
 
   void setImageToUpload(PickedFile imageFile) {
@@ -82,7 +82,6 @@ class AddCaseViewModel with ChangeNotifier {
 
         addCaseTitleController.clear();
         addCaseDescriptionController.clear();
-        addCaseTotalPriceController.clear();
         addCaseStatusController.clear();
         caseToAdd = null;
       }

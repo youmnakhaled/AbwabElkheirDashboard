@@ -1,3 +1,4 @@
+import 'package:abwab_elkheir_dashboard/Services/UtilityFunctions.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 
@@ -69,7 +70,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
       status: caseViewModel.addCaseStatusController.text,
       images: ['7d77a888-ab0b-4944-b7b4-13f1f4267c88.jpg'],
       isActive: true,
-      totalPrice: caseViewModel.addCaseTotalPriceController.text,
+      totalPrice: caseViewModel.addCaseTotalPrice,
     );
 
     caseViewModel.setCaseToAdd(caseToAdd);
@@ -109,13 +110,19 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                 onSaved: (value) {},
               ),
               TextFieldWidget(
-                controller: caseViewModel.addCaseTotalPriceController,
                 textInputAction: TextInputAction.next,
                 textDirection: TextDirection.rtl,
                 inputType: TextInputType.number,
                 deviceSize: deviceSize,
                 labelText: ' المبلغ المطلوب',
                 focusNode: _priceFocusNode,
+                onChanged: (value) {
+                  setState(() {
+                    String engAmount =
+                        UtilityFunctions.convertNumberToEnglish(value);
+                    caseViewModel.addCaseTotalPrice = int.parse(engAmount);
+                  });
+                },
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocusNode);
                 },
@@ -129,8 +136,15 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                   if (!matches) {
                     return 'أدخل رقم صحيح لمبلغ الحالة ';
                   }
-                  if (value == "0" || value == "٠") {
+                  // if (value == "0" || value == "٠") {
+                  //   return 'يجب أن يكون المبلغ أكثر من صفر.';
+                  // }
+                  value = UtilityFunctions.convertNumberToEnglish(value);
+                  if (value == "0") {
                     return 'يجب أن يكون المبلغ أكثر من صفر.';
+                  }
+                  if (int.tryParse(value) == null) {
+                    return 'يجب أن يكون المبلغ رقم صحيح .';
                   }
                   return null;
                 },

@@ -1,4 +1,5 @@
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
+import 'package:abwab_elkheir_dashboard/Services/UtilityFunctions.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,7 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
         category: currentCase.category,
         id: currentCase.id,
         title: caseViewModel.editCaseTitleController.text,
-        totalPrice: caseViewModel.editCaseTotalPriceController.text,
+        totalPrice: caseViewModel.editCaseTotalPrice,
         status: caseViewModel.editCaseStatusController.text);
 
     caseViewModel.setCaseToEdit(editedCase);
@@ -86,8 +87,10 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                   controller: caseViewModel.editCaseTitleController,
                   isEnabled: false,
                   deviceSize: deviceSize,
-                  onChanged: () {
-                    caseViewModel.isChanged = true;
+                  onChanged: (value) {
+                    setState(() {
+                      caseViewModel.isChanged = true;
+                    });
                   },
                   labelText: 'عنوان الحالة',
                   textInputAction: TextInputAction.next,
@@ -104,12 +107,18 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                   onSaved: (value) {},
                 ),
                 TextFieldWidget(
-                  controller: caseViewModel.editCaseTotalPriceController,
+                  // controller: caseViewModel.editCaseTotalPriceController,
+                  initialValue: caseViewModel.editCaseTotalPrice.toString(),
                   textInputAction: TextInputAction.next,
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.number,
-                  onChanged: () {
-                    caseViewModel.isChanged = true;
+                  onChanged: (value) {
+                    setState(() {
+                      String engAmount =
+                          UtilityFunctions.convertNumberToEnglish(value);
+                      caseViewModel.editCaseTotalPrice = int.parse(engAmount);
+                      caseViewModel.isChanged = true;
+                    });
                   },
                   deviceSize: deviceSize,
                   labelText: ' المبلغ المطلوب',
@@ -127,8 +136,15 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                     if (!matches) {
                       return 'أدخل رقم صحيح لمبلغ الحالة ';
                     }
-                    if (value == "0" || value == "٠") {
+                    // if (value == "0" || value == "٠") {
+                    //   return 'يجب أن يكون المبلغ أكثر من صفر.';
+                    // }
+                    value = UtilityFunctions.convertNumberToEnglish(value);
+                    if (value == "0") {
                       return 'يجب أن يكون المبلغ أكثر من صفر.';
+                    }
+                    if (int.tryParse(value) == null) {
+                      return 'يجب أن يكون المبلغ رقم صحيح .';
                     }
                     return null;
                   },
@@ -189,8 +205,11 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                   deviceSize: deviceSize,
                   labelText: 'التفاصيل',
                   maxLines: 14,
-                  onChanged: () {
-                    caseViewModel.isChanged = true;
+                  onChanged: (value) {
+                    setState(() {
+                      // caseViewModel.editCaseDescriptionController = value;
+                      caseViewModel.isChanged = true;
+                    });
                   },
                   textDirection: TextDirection.rtl,
                   inputType: TextInputType.multiline,

@@ -14,7 +14,7 @@ class EditCaseViewModel with ChangeNotifier {
 
   TextEditingController editCaseTitleController = TextEditingController();
   TextEditingController editCaseDescriptionController = TextEditingController();
-  TextEditingController editCaseTotalPriceController = TextEditingController();
+  int editCaseTotalPrice;
   TextEditingController editCaseStatusController = TextEditingController();
 
   void setCaseToEdit(Case caseToEdit) {
@@ -25,7 +25,7 @@ class EditCaseViewModel with ChangeNotifier {
     try {
       status = Status.loading;
       notifyListeners();
-      print('Adding');
+      print('Editing');
       Map<String, dynamic> results = await WebServices().editCase(
           caseToEdit.id,
           caseToEdit.title,

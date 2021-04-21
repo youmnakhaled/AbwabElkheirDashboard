@@ -8,7 +8,7 @@ class Case {
   final String id;
   final String title;
   final String description;
-  final String totalPrice;
+  final int totalPrice;
   final String category;
 
   const Case({
