@@ -3,6 +3,7 @@ import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart'
 import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/Views/EditCaseScreen.dart';
+import 'package:abwab_elkheir_dashboard/Views/AddHasadScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LandingScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/LayoutTemplate.dart';
 import 'package:abwab_elkheir_dashboard/Views/ViewCasesScreen.dart';
@@ -12,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:vrouter/vrouter.dart';
 
 import 'Views/AddCasesScreen.dart';
+import 'Views/SettingsScreen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -91,6 +93,18 @@ class _MyAppState extends State<MyApp> {
                 path: '/addCase',
                 widget: LayoutTemplate(
                   child: AddCaseScreen(),
+                ),
+              ),
+              VWidget(
+                path: '/setting',
+                widget: LayoutTemplate(
+                  child: SettingsScreen(),
+                ),
+              ),
+              VWidget(
+                path: '/AddHasad',
+                widget: LayoutTemplate(
+                  child: AddHasadScreen(),
                 ),
               ),
               VWidget(

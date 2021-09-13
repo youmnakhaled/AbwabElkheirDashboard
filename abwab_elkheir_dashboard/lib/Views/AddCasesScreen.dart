@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class AddCaseScreen extends StatefulWidget {
-  static final routeName = "/landingScreen";
+  static final routeName = "/addCase";
 
   @override
   _AddCaseScreenState createState() => _AddCaseScreenState();
