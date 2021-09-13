@@ -31,7 +31,7 @@ dependencies:
   vrouter: ^1.1.0+15
   http: ^0.13.0
   arabic_numbers: ^0.0.1
-  image_picker: ^0.7.4      ## TO BE REMOVED
+  image_picker: ^0.8.4      ## TO BE REMOVED
 
 
 

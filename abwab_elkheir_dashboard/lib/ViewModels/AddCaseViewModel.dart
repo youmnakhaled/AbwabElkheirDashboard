@@ -1,5 +1,6 @@
 // import '../Constants/Endpoints.dart';
 
+import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../Constants/ConstantColors.dart';
@@ -12,14 +13,14 @@ class AddCaseViewModel with ChangeNotifier {
   Case caseToAdd;
 
   Status status = Status.success;
-  PickedFile imageToUpload;
+  XFile imageToUpload;
 
   TextEditingController addCaseTitleController = TextEditingController();
   TextEditingController addCaseDescriptionController = TextEditingController();
   int addCaseTotalPrice;
   TextEditingController addCaseStatusController = TextEditingController();
 
-  void setImageToUpload(PickedFile imageFile) {
+  void setImageToUpload(XFile imageFile) {
     imageToUpload = imageFile;
   }
 
@@ -31,38 +32,51 @@ class AddCaseViewModel with ChangeNotifier {
     return imageToUpload;
   }
 
-  Future<void> addImage(BuildContext context, String token) async {
-    try {
-      status = Status.loading;
-      notifyListeners();
-      Map<String, dynamic> results =
-          await WebServices().getImagesUrls(imageToUpload, token);
-      print(results);
+  // Future<void> addImage(BuildContext context, String token) async {
+  //   try {
+  //     status = Status.loading;
+  //     notifyListeners();
+  //     Map<String, dynamic> results =
+  //         await WebServices().getImagesUrls(imageToUpload, token);
+  //     print(results);
 
-      if (results['statusCode'] == 400) {
-        UtilityFunctions.showErrorDialog(
-            " خطأ",
-            " حدث خطأ ما ، يرجى المحاولة مرة أخرى والتحقق من اتصالك بالإنترنت",
-            context);
-      }
+  //     if (results['statusCode'] == 400) {
+  //       UtilityFunctions.showErrorDialog(
+  //           " خطأ",
+  //           " حدث خطأ ما ، يرجى المحاولة مرة أخرى والتحقق من اتصالك بالإنترنت",
+  //           context);
+  //     }
 
-      status = Status.success;
-      notifyListeners();
-    } catch (error) {
-      return;
-    }
-  }
+  //     status = Status.success;
+  //     notifyListeners();
+  //   } catch (error) {
+  //     return;
+  //   }
+  // }
 
   Future<void> addCase(BuildContext context, String token) async {
     try {
       status = Status.loading;
       notifyListeners();
       print('Adding');
+      List<dynamic> imageUrls =
+          await WebServices().getImagesUrls(imageToUpload, token);
+
+      //Upload Images to AWS
+      final fields = imageUrls[0]['fields'];
+      fields['file'] = await MultipartFile.fromBytes(
+        await imageToUpload.readAsBytes(),
+        filename: imageToUpload.name,
+      );
+      await WebServices().uploadImage(imageUrls[0]['url'], fields);
+      caseToAdd.images.add(imageUrls[0]['fields']['key']);
+
+      print(caseToAdd.images);
       Map<String, dynamic> results = await WebServices().addCase(
           caseToAdd.title,
           caseToAdd.description,
           caseToAdd.totalPrice,
-          [],
+          caseToAdd.images,
           true,
           caseToAdd.status,
           token);

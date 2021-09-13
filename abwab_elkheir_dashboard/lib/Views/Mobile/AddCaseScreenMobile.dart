@@ -48,11 +48,12 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
 
   Future chooseImage() async {
     final _picker = ImagePicker();
-    PickedFile image = await _picker.getImage(source: ImageSource.gallery);
+    XFile image = await _picker.pickImage(source: ImageSource.gallery);
     caseViewModel.setImageToUpload(image);
-    await caseViewModel.addImage(context, auth.accessToken);
+    print({'mimeType': image.mimeType});
+    print({'name': image.mimeType});
     setState(() {
-      print('Image Selected:' + image.path);
+      print('Image Selected:' + image.name);
     });
   }
 
@@ -68,7 +69,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
       title: caseViewModel.addCaseTitleController.text,
       description: caseViewModel.addCaseDescriptionController.text,
       status: caseViewModel.addCaseStatusController.text,
-      images: ['7d77a888-ab0b-4944-b7b4-13f1f4267c88.jpg'],
+      images: [],
       isActive: true,
       totalPrice: caseViewModel.addCaseTotalPrice,
     );

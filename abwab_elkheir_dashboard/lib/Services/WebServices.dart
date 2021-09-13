@@ -57,7 +57,7 @@ class WebServices {
             "title": title,
             "description": description,
             "totalPrice": totalPrice,
-            "images": ['7d77a888-ab0b-4944-b7b4-13f1f4267c88.jpg'],
+            "images": images,
             "isActive": isActive,
             "status": status,
           },
@@ -99,34 +99,29 @@ class WebServices {
     }
   }
 
+  Future<void> uploadImage(String url, Map<String, dynamic> fields) async {
+    try {
+      print('Uploading');
+      FormData formData = new FormData.fromMap(fields);
+      await Dio().post(url,
+          data: formData, options: Options(contentType: 'multipart/form-data'));
+
+      return;
+    } catch (error) {
+      print(error);
+    }
+  }
+
   // ignore: missing_return
-  Future<Map<String, dynamic>> getImagesUrls(
-    PickedFile image,
+  Future<List<dynamic>> getImagesUrls(
+    XFile image,
     String token,
   ) async {
     try {
-      // var stream = new http.ByteStream(image.openRead());
-      // stream.cast();
-
-      // var uri = Uri.parse(Endpoints.baseUrl + Endpoints.getImageUrls);
-      // Uint8List imageBytes = await image.readAsBytes();
-      // int length = imageBytes.length;
-      // var request = new http.MultipartRequest("POST", uri);
-      // var multipartFile = new http.MultipartFile('files', stream, length,
-      //     filename: basename(image.path),
-      //     contentType: MediaType('image', 'png'));
-
-      // request.files.add(multipartFile);
-      // var response = await request.send();
-      // print(response.statusCode);
-      // response.stream.transform(utf8.decoder).listen((value) {
-      //   print(value);
-      // });
-
       final response = await Dio().post(
         Endpoints.baseUrl + Endpoints.getImageUrls,
         data: {
-          'images': [image.path],
+          'images': [image.name],
         },
         options: Options(
           //contentType: "application/json",
@@ -138,8 +133,6 @@ class WebServices {
           },
         ),
       );
-
-      print(response.data);
 
       // final response = await Dio().post(
       //   Endpoints.baseUrl + Endpoints.getImageUrls,
@@ -158,7 +151,7 @@ class WebServices {
       // if (response.statusCode != 200) {
       //   throw HTTPException(response.data['message']).toString();
       // }
-      // return response.data;
+      return response.data;
     } catch (error) {
       print(error);
       throw error;
