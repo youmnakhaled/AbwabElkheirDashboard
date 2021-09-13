@@ -73,8 +73,9 @@ class TextFieldWidget extends StatelessWidget {
                 // ignore: missing_return
                 validator: validate,
                 decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 20.0,
+                  ),
                   prefixIcon: Icon(
                     prefixIconData,
                     color: Colors.black.withOpacity(0.8),
