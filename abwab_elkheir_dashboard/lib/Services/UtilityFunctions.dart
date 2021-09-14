@@ -27,22 +27,35 @@ class UtilityFunctions {
       barrierDismissible: false,
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-                primary: ConstantColors.purple,
-                textStyle: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                )),
-            child: Text('Okay'),
-            onPressed: () {
-              Navigator.of(ctx).pop();
-            },
-          )
-        ],
+        title: Text(
+          title,
+          textAlign: TextAlign.left,
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              message,
+              textAlign: TextAlign.left,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                  primary: ConstantColors.purple,
+                  textStyle: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  )),
+              child: Text('close'),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            )
+          ],
+        ),
+        actions: <Widget>[],
       ),
     );
   }
