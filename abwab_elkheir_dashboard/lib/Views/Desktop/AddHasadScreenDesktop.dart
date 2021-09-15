@@ -1,11 +1,10 @@
-import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
+import 'package:abwab_elkheir_dashboard/Models/hasad_model.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
+import 'package:abwab_elkheir_dashboard/ViewModels/AddHasadViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 import 'package:vrouter/vrouter.dart';
-import '../../Models/case_model.dart';
 import '../../Constants/ConstantColors.dart';
 
 class AddHasadScreenDesktop extends StatefulWidget {
@@ -18,19 +17,18 @@ class AddHasadScreenDesktop extends StatefulWidget {
 
 class _AddHasadScreenDesktopState extends State<AddHasadScreenDesktop> {
   AuthenticationViewModel auth;
-  EditCaseViewModel caseViewModel;
+  AddHasadViewModel hasadViewModel;
+
   final _linkFocusNode = FocusNode();
   final _titleFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
-  Case currentCase;
-  Case editedCase;
 
   bool isLoading = false;
   @override
   void initState() {
     auth = Provider.of<AuthenticationViewModel>(context, listen: false);
-    caseViewModel = Provider.of<EditCaseViewModel>(context, listen: false);
-    currentCase = caseViewModel.currentCase;
+    hasadViewModel = Provider.of<AddHasadViewModel>(context, listen: false);
+
     super.initState();
   }
 
@@ -48,18 +46,12 @@ class _AddHasadScreenDesktopState extends State<AddHasadScreenDesktop> {
     }
     _form.currentState.save();
 
-    // Case editedCase = Case(
-    //     description: caseViewModel.editCaseDescriptionController.text,
-    //     images: currentCase.images,
-    //     isActive: currentCase.isActive,
-    //     category: currentCase.category,
-    //     id: currentCase.id,
-    //     title: caseViewModel.editCaseTitleController.text,
-    //     totalPrice: caseViewModel.editCaseTotalPrice,
-    //     status: caseViewModel.editCaseStatusController.text);
+    Hasad currentHasad = Hasad(
+        title: hasadViewModel.addHasadTitleController.text,
+        link: hasadViewModel.addHasadLinkController.text);
 
-    // caseViewModel.setCaseToEdit(editedCase);
-    // await caseViewModel.editCase(context, auth.accessToken);
+    hasadViewModel.setHasadToAdd(currentHasad);
+    await hasadViewModel.addHasad(context, auth.accessToken);
     context.vRouter.pop();
   }
 
@@ -85,15 +77,10 @@ class _AddHasadScreenDesktopState extends State<AddHasadScreenDesktop> {
                 ),
                 TextFieldWidget(
                   width: deviceSize.width * 0.8,
-                  // controller: caseViewModel.editCaseTitleController,
+                  controller: hasadViewModel.addHasadTitleController,
                   isEnabled: true,
                   maxLines: 1,
                   deviceSize: deviceSize,
-                  onChanged: (value) {
-                    setState(() {
-                      caseViewModel.isChanged = true;
-                    });
-                  },
                   labelText: ' عنوان الحصاد',
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) {
@@ -110,15 +97,10 @@ class _AddHasadScreenDesktopState extends State<AddHasadScreenDesktop> {
                 ),
                 TextFieldWidget(
                   width: deviceSize.width * 0.8,
-                  // controller: caseViewModel.editCaseTitleController,
+                  controller: hasadViewModel.addHasadLinkController,
                   isEnabled: true,
                   maxLines: 1,
                   deviceSize: deviceSize,
-                  onChanged: (value) {
-                    setState(() {
-                      caseViewModel.isChanged = true;
-                    });
-                  },
                   labelText: 'لينك الحصاد',
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) {
@@ -150,9 +132,7 @@ class _AddHasadScreenDesktopState extends State<AddHasadScreenDesktop> {
                     child: Text('حفظ'),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            caseViewModel.isChanged
-                                ? ConstantColors.lightBlue
-                                : Colors.grey)),
+                            ConstantColors.lightBlue)),
                   ),
                 )
               ],

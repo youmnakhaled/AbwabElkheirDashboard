@@ -99,6 +99,55 @@ class WebServices {
     }
   }
 
+  Future<Map<String, dynamic>> addHasad(
+    String title,
+    String link,
+    String token,
+  ) async {
+    try {
+      print('Adding Hasad');
+      final response = await Dio().post(
+        Endpoints.baseUrl + Endpoints.addHasad,
+        data: json.encode(
+          {"title": title, "link": link},
+        ),
+        options: Options(
+          headers: {
+            "Authorization": "Bearer " + token,
+          },
+          validateStatus: (_) {
+            return true;
+          },
+        ),
+      );
+
+      print(response.data);
+
+      Map<String, dynamic> results;
+
+      if (response.statusCode == 201) {
+        results = {
+          "statusCode": 201,
+          "data": response.data,
+        };
+      } else if (response.statusCode == 400) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
+      } else if (response.statusCode == 404) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
+      }
+      return results;
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
   Future<void> uploadImage(String url, Map<String, dynamic> fields) async {
     try {
       print('Uploading');

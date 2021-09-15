@@ -6,4 +6,7 @@ class Endpoints {
   static String addCase = "cases/addCase";
   static String editCase = "cases/editCase";
   static String getImageUrls = "admin/getImageUrls";
+
+  static String addHasad = "admin/addHasad";
+  static String editYoutubeLink = "admin/editYoutubeLink";
 }
