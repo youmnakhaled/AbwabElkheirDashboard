@@ -9,4 +9,5 @@ class Endpoints {
 
   static String addHasad = "admin/addHasad";
   static String editYoutubeLink = "admin/editYoutubeLink";
+  static String getYoutubeLink = "youtube";
 }

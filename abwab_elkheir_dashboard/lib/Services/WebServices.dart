@@ -271,6 +271,9 @@ class WebServices {
   Future<Map<String, dynamic>> fetchCases(
       String status, String startDate, String endDate, String token) async {
     try {
+      print(status);
+      print(startDate);
+      print(endDate);
       final response = await Dio().get(
         Endpoints.baseUrl + Endpoints.cases,
         options: Options(
@@ -294,6 +297,92 @@ class WebServices {
         results = {
           "statusCode": 200,
           // "data": jsonDecode(response.data),
+          "data": response.data,
+        };
+      } else if (response.statusCode == 400) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
+      } else if (response.statusCode == 404) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
+      }
+      return results;
+    } catch (error) {
+      return {
+        "statusCode": 400,
+        "data": "Something went wrong",
+      };
+    }
+  }
+
+  //////////////////////// Youtube Video link   ///////////
+  Future<Map<String, dynamic>> editYoutubeLink(
+      String youtubeLink, String token) async {
+    try {
+      print('Editing utube link');
+      print(youtubeLink);
+      final response = await Dio().post(
+        Endpoints.baseUrl + Endpoints.editYoutubeLink,
+        data: json.encode(
+          {"link": youtubeLink},
+        ),
+        options: Options(
+          headers: {
+            "Authorization": "Bearer " + token,
+          },
+          validateStatus: (_) {
+            return true;
+          },
+        ),
+      );
+
+      Map<String, dynamic> results;
+
+      if (response.statusCode == 200) {
+        results = {
+          "statusCode": 200,
+          "data": response.data,
+        };
+      } else if (response.statusCode == 400) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
+      } else if (response.statusCode == 404) {
+        results = {
+          "statusCode": 400,
+          "data": "Something went wrong",
+        };
+      }
+      return results;
+    } catch (error) {
+      print(error);
+      throw error;
+    }
+  }
+
+  Future<Map<String, dynamic>> getYoutubeLink(String token) async {
+    try {
+      final response =
+          await Dio().get(Endpoints.baseUrl + Endpoints.getYoutubeLink,
+              options: Options(
+                headers: {
+                  "Authorization": "Bearer " + token,
+                },
+                validateStatus: (_) {
+                  return true;
+                },
+              ));
+
+      Map<String, dynamic> results;
+
+      if (response.statusCode == 200) {
+        results = {
+          "statusCode": 200,
           "data": response.data,
         };
       } else if (response.statusCode == 400) {

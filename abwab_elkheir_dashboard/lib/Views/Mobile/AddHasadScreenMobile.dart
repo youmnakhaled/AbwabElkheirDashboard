@@ -92,7 +92,7 @@ class _AddHasadScreenMobileState extends State<AddHasadScreenMobile> {
                     }
                     return null;
                   },
-                  textDirection: TextDirection.ltr,
+                  textDirection: TextDirection.rtl,
                   onSaved: (value) {},
                 ),
                 TextFieldWidget(
@@ -116,7 +116,7 @@ class _AddHasadScreenMobileState extends State<AddHasadScreenMobile> {
                     }
                     return null;
                   },
-                  textDirection: TextDirection.ltr,
+                  textDirection: TextDirection.rtl,
                   onSaved: (value) {},
                 ),
                 SizedBox(
