@@ -122,7 +122,7 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
                                 ? ConstantColors.lightBlue
                                 : Colors.grey)),
                   ),
-                )
+                ),
               ],
             ),
           ),
