@@ -124,11 +124,10 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
                     child: Text('حفظ'),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            caseViewModel.isChanged
-                                ? ConstantColors.lightBlue
-                                : Colors.grey)),
+                            caseViewModel.isChanged ? ConstantColors.lightBlue : Colors.grey)),
                   ),
-                )
+                ),
+        
               ],
             ),
           ),

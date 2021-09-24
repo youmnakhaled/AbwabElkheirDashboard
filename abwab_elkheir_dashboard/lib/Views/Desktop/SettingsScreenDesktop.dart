@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
@@ -126,6 +128,19 @@ class _SettingsScreenDesktopState extends State<SettingsScreenDesktop> {
                             caseViewModel.isChanged
                                 ? ConstantColors.lightBlue
                                 : Colors.grey)),
+                  ),
+                ),
+                        Container(
+                  margin: EdgeInsets.fromLTRB(0, 50, 0, 50),
+                  width: 150,
+                  child: ElevatedButton(
+                    onPressed: () {
+                window.history.back(); 
+                    },
+                    child: Text('test'),
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            caseViewModel.isChanged ? ConstantColors.lightBlue : Colors.grey)),
                   ),
                 )
               ],
