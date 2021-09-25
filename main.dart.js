@@ -41142,7 +41142,7 @@ var $async$up=P.J(function(c,d){if(c===1){o=d
 s=p}while(true)switch(s){case 0:p=4
 k=t.R
 s=7
-return P.G(U.lO(null).mT("https://abwabelkheirdev.herokuapp.com/admin/signin",C.Y.i4(P.af(["email",a,"password",b],k,k)),B.mi(null,null,new D.afA()),t.z),$async$up)
+return P.G(U.lO(null).mT("https://abwabelkheir.herokuapp.com/admin/signin",C.Y.i4(P.af(["email",a,"password",b],k,k)),B.mi(null,null,new D.afA()),t.z),$async$up)
 case 7:m=d
 if(m.d!==200){k=J.a2(m.a,"message")
 throw H.b(k)}k=m.a
@@ -41172,7 +41172,7 @@ P.aJ("Adding web")
 j=t.R
 i=t.z
 s=7
-return P.G(U.lO(null).mT("https://abwabelkheirdev.herokuapp.com/cases/addCase",C.Y.i4(P.af(["title",a,"description",b,"totalPrice",c,"images",d,"isActive",!0,"status",f],j,t.ub)),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",a0)],j,i),new D.aft()),i),$async$wm)
+return P.G(U.lO(null).mT("https://abwabelkheir.herokuapp.com/cases/addCase",C.Y.i4(P.af(["title",a,"description",b,"totalPrice",c,"images",d,"isActive",!0,"status",f],j,t.ub)),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",a0)],j,i),new D.aft()),i),$async$wm)
 case 7:m=a2
 P.aJ(m.a)
 l=null
@@ -41206,7 +41206,7 @@ P.aJ("Adding Hasad")
 j=t.R
 i=t.z
 s=7
-return P.G(U.lO(null).mT("https://abwabelkheirdev.herokuapp.com/admin/addHasad",C.Y.i4(P.af(["title",a,"link",b],j,j)),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",c)],j,i),new D.afu()),i),$async$wn)
+return P.G(U.lO(null).mT("https://abwabelkheir.herokuapp.com/admin/addHasad",C.Y.i4(P.af(["title",a,"link",b],j,j)),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",c)],j,i),new D.afu()),i),$async$wn)
 case 7:m=e
 P.aJ(m.a)
 l=null
@@ -41263,7 +41263,7 @@ s=p}while(true)switch(s){case 0:p=4
 k=t.R
 j=t.z
 s=7
-return P.G(U.lO(null).mT("https://abwabelkheirdev.herokuapp.com/admin/getImageUrls",P.af(["images",H.a([a.b],t.i)],k,t.gP),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",b)],k,j),new D.afy()),j),$async$u7)
+return P.G(U.lO(null).mT("https://abwabelkheir.herokuapp.com/admin/getImageUrls",P.af(["images",H.a([a.b],t.i)],k,t.gP),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",b)],k,j),new D.afy()),j),$async$u7)
 case 7:m=d
 j=m.a
 q=j
@@ -41292,7 +41292,7 @@ P.aJ("Editing")
 j=t.R
 i=t.z
 s=7
-return P.G(U.lO(null).mT("https://abwabelkheirdev.herokuapp.com/cases/editCase",C.Y.i4(P.af(["_id",a,"title",b,"description",c,"totalPrice",d,"images",e,"isActive",f,"status",a0,"category",a1],j,t.ub)),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",a2)],j,i),new D.afv()),i),$async$xe)
+return P.G(U.lO(null).mT("https://abwabelkheir.herokuapp.com/cases/editCase",C.Y.i4(P.af(["_id",a,"title",b,"description",c,"totalPrice",d,"images",e,"isActive",f,"status",a0,"category",a1],j,t.ub)),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",a2)],j,i),new D.afv()),i),$async$xe)
 case 7:m=a4
 l=null
 if(m.d===200)l=P.af(["statusCode",200,"data",m.a],j,i)
@@ -41327,7 +41327,7 @@ P.aJ(c)
 k=t.R
 j=t.z
 s=7
-return P.G(U.lO(null).FU(0,"https://abwabelkheirdev.herokuapp.com/admin/getCases",B.mi(null,P.af(["Authorization",C.b.R("Bearer ",d)],k,j),new D.afx()),P.af(["status",a,"startDate",b,"endDate",c],k,j),j),$async$xk)
+return P.G(U.lO(null).FU(0,"https://abwabelkheir.herokuapp.com/admin/getCases",B.mi(null,P.af(["Authorization",C.b.R("Bearer ",d)],k,j),new D.afx()),P.af(["status",a,"startDate",b,"endDate",c],k,j),j),$async$xk)
 case 7:m=f
 l=null
 if(m.d===200)l=P.af(["statusCode",200,"data",m.a],k,j)
@@ -41363,7 +41363,7 @@ P.aJ(a)
 j=t.R
 i=t.z
 s=7
-return P.G(U.lO(null).mT("https://abwabelkheirdev.herokuapp.com/admin/editYoutubeLink",C.Y.i4(P.af(["link",a],j,j)),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",b)],j,i),new D.afw()),i),$async$xf)
+return P.G(U.lO(null).mT("https://abwabelkheir.herokuapp.com/admin/editYoutubeLink",C.Y.i4(P.af(["link",a],j,j)),B.mi(null,P.af(["Authorization",C.b.R("Bearer ",b)],j,i),new D.afw()),i),$async$xf)
 case 7:m=d
 l=null
 if(m.d===200)l=P.af(["statusCode",200,"data",m.a],j,i)
@@ -41395,7 +41395,7 @@ s=p}while(true)switch(s){case 0:p=4
 k=t.R
 j=t.z
 s=7
-return P.G(U.lO(null).T2(0,"https://abwabelkheirdev.herokuapp.com/youtube",B.mi(null,P.af(["Authorization",C.b.R("Bearer ",a)],k,j),new D.afz()),j),$async$uf)
+return P.G(U.lO(null).T2(0,"https://abwabelkheir.herokuapp.com/youtube",B.mi(null,P.af(["Authorization",C.b.R("Bearer ",a)],k,j),new D.afz()),j),$async$uf)
 case 7:m=c
 l=null
 if(m.d===200)l=P.af(["statusCode",200,"data",m.a],k,j)
