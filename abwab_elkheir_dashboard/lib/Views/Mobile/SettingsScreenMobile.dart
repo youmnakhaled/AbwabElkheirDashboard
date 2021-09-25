@@ -23,7 +23,7 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
   // Case currentCase;
   // Case editedCase;
 
-  bool isLoading = false;
+  // bool isLoading = false;
   @override
   void initState() {
     auth = Provider.of<AuthenticationViewModel>(context, listen: false);

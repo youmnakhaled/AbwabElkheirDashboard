@@ -1,6 +1,7 @@
 import 'package:abwab_elkheir_dashboard/Services/UtilityFunctions.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AddCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
+import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
@@ -75,7 +76,9 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
 
     caseViewModel.setCaseToAdd(caseToAdd);
     caseViewModel.addCase(context, auth.accessToken);
-    Navigator.of(context).pop();
+    window.history.back();
+
+    // Navigator.of(context).pop();
   }
 
   @override

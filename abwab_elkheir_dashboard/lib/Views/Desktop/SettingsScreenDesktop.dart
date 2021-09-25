@@ -22,6 +22,8 @@ class SettingsScreenDesktop extends StatefulWidget {
 class _SettingsScreenDesktopState extends State<SettingsScreenDesktop> {
   AuthenticationViewModel auth;
   SettingViewModel settingViewModel;
+  SettingViewModel listener;
+
   final _linkFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   String currentLink;
@@ -53,99 +55,117 @@ class _SettingsScreenDesktopState extends State<SettingsScreenDesktop> {
     await settingViewModel.editLink(
         context, auth.accessToken, settingViewModel.getYoutubeLink);
     settingViewModel.isChanged = false;
-    context.vRouter.pop();
+    window.history.back();
+    //context.vRouter.pop();
   }
 
   @override
   Widget build(BuildContext context) {
     final deviceSize = widget.deviceSize;
+    listener = Provider.of<SettingViewModel>(context, listen: true);
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text("اعدادات الصفحة الرئيسية "),
-        backgroundColor: ConstantColors.lightBlue,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _form,
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 30,
-                ),
-                TextFieldWidget(
-                  width: deviceSize.width * 0.8,
-                  // controller: settingViewModel.youtubeLinkController,
-                  initialValue: settingViewModel.youtubeLink,
-                  isEnabled: true,
-                  maxLines: 1,
-                  deviceSize: deviceSize,
-                  onChanged: (value) {
-                    setState(() {
-                      settingViewModel.isChanged = true;
-                    });
-                  },
-                  labelText: 'لينك فيديو الصفحة الرئيسية',
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (_) {
-                    FocusScope.of(context).requestFocus(_linkFocusNode);
-                  },
-                  validate: (value) {
-                    if (value.isEmpty) {
-                      return 'أدخل لينك الفيديو';
-                    }
-                    bool _validURL = Uri.parse(value).isAbsolute;
-                    if (!_validURL) {
-                      return 'أدخل لينك صحيح الفيديو';
-                    }
-                    return null;
-                  },
-                  textDirection: TextDirection.rtl,
-                  onSaved: (value) {
-                    settingViewModel.setNewLink(value);
-                  },
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 50, 0, 50),
-                  width: 150,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _saveForm();
-                    },
-                    child: Text('حفظ'),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            settingViewModel.isChanged
-                                ? ConstantColors.lightBlue
-                                : Colors.grey)),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 50, 0, 50),
-                  width: 150,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      window.history.back();
-                    },
-                    child: Text('test'),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                            settingViewModel.isChanged
-                                ? ConstantColors.lightBlue
-                                : Colors.grey)),
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: Text("اعدادات الصفحة الرئيسية "),
+          backgroundColor: ConstantColors.lightBlue,
+        ),
+        body: RefreshIndicator(
+          color: ConstantColors.lightBlue,
+          onRefresh: () async {
+            await settingViewModel.getCurrentLink(context, auth.accessToken);
+          },
+          child: listener.status == Status.loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.transparent,
+                    valueColor: new AlwaysStoppedAnimation<Color>(
+                      ConstantColors.lightBlue,
+                    ),
                   ),
                 )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+              : Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _form,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 30,
+                          ),
+                          TextFieldWidget(
+                            width: deviceSize.width * 0.8,
+                            // controller: settingViewModel.youtubeLinkController,
+                            initialValue: settingViewModel.youtubeLink,
+                            isEnabled: true,
+                            maxLines: 1,
+                            deviceSize: deviceSize,
+                            onChanged: (value) {
+                              setState(() {
+                                settingViewModel.isChanged = true;
+                              });
+                            },
+                            labelText: 'لينك فيديو الصفحة الرئيسية',
+                            textInputAction: TextInputAction.next,
+                            onFieldSubmitted: (_) {
+                              FocusScope.of(context)
+                                  .requestFocus(_linkFocusNode);
+                            },
+                            validate: (value) {
+                              if (value.isEmpty) {
+                                return 'أدخل لينك الفيديو';
+                              }
+                              bool _validURL = Uri.parse(value).isAbsolute;
+                              if (!_validURL) {
+                                return 'أدخل لينك صحيح الفيديو';
+                              }
+                              return null;
+                            },
+                            textDirection: TextDirection.rtl,
+                            onSaved: (value) {
+                              settingViewModel.setNewLink(value);
+                            },
+                          ),
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 50, 0, 50),
+                            width: 150,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _saveForm();
+                              },
+                              child: Text('حفظ'),
+                              style: ButtonStyle(
+                                  backgroundColor: MaterialStateProperty.all(
+                                      settingViewModel.isChanged
+                                          ? ConstantColors.lightBlue
+                                          : Colors.grey)),
+                            ),
+                          ),
+                          // Container(
+                          //   margin: EdgeInsets.fromLTRB(0, 50, 0, 50),
+                          //   width: 150,
+                          //   child: ElevatedButton(
+                          //     onPressed: () {
+                          //       window.history.back();
+                          //     },
+                          //     child: Text('test'),
+                          //     style: ButtonStyle(
+                          //         backgroundColor: MaterialStateProperty.all(
+                          //             settingViewModel.isChanged
+                          //                 ? ConstantColors.lightBlue
+                          //                 : Colors.grey)),
+                          //   ),
+                          // )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+        ));
   }
 }
