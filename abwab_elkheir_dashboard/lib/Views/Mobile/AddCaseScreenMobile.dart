@@ -119,8 +119,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                 focusNode: _priceFocusNode,
                 onChanged: (value) {
                   setState(() {
-                    String engAmount =
-                        UtilityFunctions.convertNumberToEnglish(value);
+                    String engAmount = UtilityFunctions.convertNumberToEnglish(value);
                     caseViewModel.addCaseTotalPrice = int.parse(engAmount);
                   });
                 },
@@ -160,8 +159,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                   ),
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                width:
-                    deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
+                width: deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
                 child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: DropdownButtonHideUnderline(
@@ -187,6 +185,10 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                         DropdownMenuItem(
                           value: "جاري التجميع",
                           child: Text("جاري التجميع"),
+                        ),
+                        DropdownMenuItem(
+                          value: "تم",
+                          child: Text("تم"),
                         ),
                       ],
                       onChanged: (value) {
@@ -226,9 +228,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                     ),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
-                  width: deviceSize.width * 0.3 < 250
-                      ? 250
-                      : deviceSize.width * 0.3,
+                  width: deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
                   height: 200,
                   child: caseViewModel.getImage == null
                       ? Image.asset('assets/placeholder.png')
@@ -239,8 +239,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                   //   ),
                   ),
               Container(
-                width:
-                    deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
+                width: deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
                 margin: EdgeInsets.all(deviceSize.height * 0.01),
                 child: Directionality(
                     textDirection: TextDirection.rtl,
@@ -249,9 +248,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                       icon: Icon(Icons.upload_rounded),
                       label: Text(
                         'اختار صورة للحالة',
-                        style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline),
+                        style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
                       ),
                     )),
               ),
@@ -264,8 +261,7 @@ class _AddCaseScreenMobileState extends State<AddCaseScreenMobile> {
                   },
                   child: Text('حفظ'),
                   style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(ConstantColors.lightBlue)),
+                      backgroundColor: MaterialStateProperty.all(ConstantColors.lightBlue)),
                 ),
               )
             ],

@@ -118,8 +118,7 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
                 focusNode: _priceFocusNode,
                 onChanged: (value) {
                   setState(() {
-                    String engAmount =
-                        UtilityFunctions.convertNumberToEnglish(value);
+                    String engAmount = UtilityFunctions.convertNumberToEnglish(value);
                     caseViewModel.addCaseTotalPrice = int.parse(engAmount);
                   });
                 },
@@ -159,8 +158,7 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
                   ),
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                width:
-                    deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
+                width: deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
                 child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: DropdownButtonHideUnderline(
@@ -186,6 +184,10 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
                         DropdownMenuItem(
                           value: "جاري التجميع",
                           child: Text("جاري التجميع"),
+                        ),
+                        DropdownMenuItem(
+                          value: "تم",
+                          child: Text("تم"),
                         ),
                       ],
                       onChanged: (value) {
@@ -225,9 +227,7 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
                     ),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
-                  width: deviceSize.width * 0.3 < 250
-                      ? 250
-                      : deviceSize.width * 0.3,
+                  width: deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
                   height: 200,
                   child: caseViewModel.getImage == null
                       ? Image.asset('assets/placeholder.png')
@@ -238,8 +238,7 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
                   //   ),
                   ),
               Container(
-                width:
-                    deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
+                width: deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
                 margin: EdgeInsets.all(deviceSize.height * 0.01),
                 child: Directionality(
                     textDirection: TextDirection.rtl,
@@ -248,9 +247,7 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
                       icon: Icon(Icons.upload_rounded),
                       label: Text(
                         'اختار صورة للحالة',
-                        style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline),
+                        style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
                       ),
                     )),
               ),
@@ -263,8 +260,7 @@ class _AddCaseScreenDesktopState extends State<AddCaseScreenDesktop> {
                   },
                   child: Text('حفظ'),
                   style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(ConstantColors.lightBlue)),
+                      backgroundColor: MaterialStateProperty.all(ConstantColors.lightBlue)),
                 ),
               )
             ],
