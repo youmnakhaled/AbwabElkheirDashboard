@@ -31,9 +31,9 @@ class _LandingScreenDesktopState extends State<LandingScreenDesktop> {
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController =
-        TextEditingController(text: "shahda@test.com");
+        TextEditingController();
     TextEditingController passwordController =
-        TextEditingController(text: "123456789");
+        TextEditingController();
     final deviceSize = widget.deviceSize;
     return Scaffold(
       backgroundColor: Colors.white,
