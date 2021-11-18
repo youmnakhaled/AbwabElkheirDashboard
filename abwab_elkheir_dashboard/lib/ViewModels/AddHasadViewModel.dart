@@ -35,8 +35,8 @@ class AddHasadViewModel with ChangeNotifier {
 
       print(results['statusCode']);
       if (results['statusCode'] == 201) {
-        // UtilityFunctions.showErrorDialog(
-        //     " تم الاضافة ", "تم اضافة الحالة بنجاح", context);
+        UtilityFunctions.showErrorDialog(
+            " تم الاضافة ", "تم اضافة الحصاد بنجاح", context);
 
         addHasadTitleController.clear();
         addHasadLinkController.clear();

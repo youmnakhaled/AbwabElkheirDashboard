@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:abwab_elkheir_dashboard/Models/hasad_model.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AddHasadViewModel.dart';
@@ -52,7 +53,9 @@ class _AddHasadScreenDesktopState extends State<AddHasadScreenDesktop> {
 
     hasadViewModel.setHasadToAdd(currentHasad);
     await hasadViewModel.addHasad(context, auth.accessToken);
-    context.vRouter.pop();
+    window.history.back();
+
+    // context.vRouter.pop();
   }
 
   @override
@@ -92,7 +95,7 @@ class _AddHasadScreenDesktopState extends State<AddHasadScreenDesktop> {
                     }
                     return null;
                   },
-                  textDirection: TextDirection.ltr,
+                  textDirection: TextDirection.rtl,
                   onSaved: (value) {},
                 ),
                 TextFieldWidget(
@@ -116,7 +119,7 @@ class _AddHasadScreenDesktopState extends State<AddHasadScreenDesktop> {
                     }
                     return null;
                   },
-                  textDirection: TextDirection.ltr,
+                  textDirection: TextDirection.rtl,
                   onSaved: (value) {},
                 ),
                 SizedBox(

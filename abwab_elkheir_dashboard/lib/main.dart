@@ -3,6 +3,7 @@ import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart'
 import 'package:abwab_elkheir_dashboard/ViewModels/CasesViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AddHasadViewModel.dart';
+import 'package:abwab_elkheir_dashboard/ViewModels/SettingViewModel.dart';
 // import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
 import 'package:abwab_elkheir_dashboard/Views/EditCaseScreen.dart';
 import 'package:abwab_elkheir_dashboard/Views/AddHasadScreen.dart';
@@ -40,6 +41,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider.value(
           value: AuthenticationViewModel(),
+        ),
+        ChangeNotifierProvider.value(
+          value: SettingViewModel(),
         ),
         ChangeNotifierProvider.value(
           value: CasesViewModel(),

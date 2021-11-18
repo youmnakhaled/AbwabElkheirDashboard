@@ -1,12 +1,9 @@
-import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
-//import 'package:abwab_elkheir_dashboard/Services/UtilityFunctions.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
-import 'package:abwab_elkheir_dashboard/ViewModels/EditCaseViewModel.dart';
+import 'package:abwab_elkheir_dashboard/ViewModels/SettingViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:abwab_elkheir_dashboard/Widgets/TextFieldWidget.dart';
 import 'package:vrouter/vrouter.dart';
-import '../../Models/case_model.dart';
 import '../../Constants/ConstantColors.dart';
 
 class SettingsScreenMobile extends StatefulWidget {
@@ -19,18 +16,22 @@ class SettingsScreenMobile extends StatefulWidget {
 
 class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
   AuthenticationViewModel auth;
-  EditCaseViewModel caseViewModel;
+  SettingViewModel settingViewModel;
   final _linkFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
-  Case currentCase;
-  Case editedCase;
+  String currentLink;
+  // Case currentCase;
+  // Case editedCase;
 
-  bool isLoading = false;
+  // bool isLoading = false;
   @override
   void initState() {
     auth = Provider.of<AuthenticationViewModel>(context, listen: false);
-    caseViewModel = Provider.of<EditCaseViewModel>(context, listen: false);
-    currentCase = caseViewModel.currentCase;
+    settingViewModel = Provider.of<SettingViewModel>(context, listen: false);
+    Future.microtask(() async {
+      await settingViewModel.getCurrentLink(context, auth.accessToken);
+    });
+
     super.initState();
   }
 
@@ -46,19 +47,9 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
       return;
     }
     _form.currentState.save();
-
-    // Case editedCase = Case(
-    //     description: caseViewModel.editCaseDescriptionController.text,
-    //     images: currentCase.images,
-    //     isActive: currentCase.isActive,
-    //     category: currentCase.category,
-    //     id: currentCase.id,
-    //     title: caseViewModel.editCaseTitleController.text,
-    //     totalPrice: caseViewModel.editCaseTotalPrice,
-    //     status: caseViewModel.editCaseStatusController.text);
-
-    // caseViewModel.setCaseToEdit(editedCase);
-    // await caseViewModel.editCase(context, auth.accessToken);
+    await settingViewModel.editLink(
+        context, auth.accessToken, settingViewModel.getYoutubeLink);
+    settingViewModel.isChanged = false;
     context.vRouter.pop();
   }
 
@@ -84,13 +75,14 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
                 ),
                 TextFieldWidget(
                   width: deviceSize.width * 0.8,
-                  controller: caseViewModel.editCaseTitleController,
+                  // controller: settingViewModel.youtubeLinkController,
+                  initialValue: settingViewModel.youtubeLink,
                   isEnabled: true,
                   maxLines: 1,
                   deviceSize: deviceSize,
                   onChanged: (value) {
                     setState(() {
-                      caseViewModel.isChanged = true;
+                      settingViewModel.isChanged = true;
                     });
                   },
                   labelText: 'لينك فيديو الصفحة الرئيسية',
@@ -108,8 +100,10 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
                     }
                     return null;
                   },
-                  textDirection: TextDirection.ltr,
-                  onSaved: (value) {},
+                  textDirection: TextDirection.rtl,
+                  onSaved: (value) {
+                    settingViewModel.setNewLink(value);
+                  },
                 ),
                 SizedBox(
                   height: 50,
@@ -124,10 +118,11 @@ class _SettingsScreenMobileState extends State<SettingsScreenMobile> {
                     child: Text('حفظ'),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            caseViewModel.isChanged ? ConstantColors.lightBlue : Colors.grey)),
+                            settingViewModel.isChanged
+                                ? ConstantColors.lightBlue
+                                : Colors.grey)),
                   ),
                 ),
-        
               ],
             ),
           ),

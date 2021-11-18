@@ -27,9 +27,9 @@ class _LandingScreenMobileState extends State<LandingScreenMobile> {
   @override
   Widget build(BuildContext context) {
     TextEditingController emailController =
-        TextEditingController(text: "test@test.com");
+        TextEditingController(text: "shahda@test.com");
     TextEditingController passwordController =
-        TextEditingController(text: "12345678");
+        TextEditingController(text: "123456789");
     final deviceSize = widget.deviceSize;
     return Scaffold(
       body: SingleChildScrollView(

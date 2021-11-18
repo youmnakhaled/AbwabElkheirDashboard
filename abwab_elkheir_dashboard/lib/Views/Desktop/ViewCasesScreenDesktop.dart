@@ -119,7 +119,8 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
                               child: Card(
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(
+                                      deviceSize.width * 0.013),
                                 ),
                                 child: Row(
                                   children: [
@@ -136,8 +137,10 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
                                             fit: BoxFit.cover,
                                           )),
                                       borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(15),
-                                        bottomRight: Radius.circular(15),
+                                        topRight: Radius.circular(
+                                            deviceSize.width * 0.02),
+                                        bottomRight: Radius.circular(
+                                            deviceSize.width * 0.02),
                                       ),
                                     ),
                                     Column(
@@ -145,22 +148,28 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
                                         Container(
                                           width: deviceSize.width * 0.25,
                                           margin: EdgeInsets.only(
-                                              top: 15, bottom: 15),
+                                              top: deviceSize.width * 0.013,
+                                              bottom: deviceSize.width * 0.013),
                                           padding: EdgeInsets.only(
-                                              top: 5, bottom: 20, right: 15),
+                                              top: 5,
+                                              bottom: deviceSize.width * 0.013,
+                                              right: deviceSize.width * 0.013),
                                           child: Text(
                                             listener.cases[index].title,
                                             maxLines: 1,
                                             overflow: TextOverflow.clip,
                                             textAlign: TextAlign.right,
                                             style: TextStyle(
-                                                fontSize: 25,
+                                                fontSize:
+                                                    deviceSize.width * 0.022,
                                                 fontWeight: FontWeight.bold,
                                                 color: ConstantColors.purple),
                                           ),
                                         ),
                                         Container(
-                                            margin: EdgeInsets.only(right: 20),
+                                            margin: EdgeInsets.only(
+                                                right:
+                                                    deviceSize.width * 0.013),
                                             child: Row(
                                               children: [
                                                 Text('الحالة: ',
@@ -169,7 +178,9 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     style: TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize:
+                                                            deviceSize.width *
+                                                                0.013,
                                                         color: Colors.black)),
                                                 Text(
                                                   '${viewModel.cases[index].status}',
@@ -178,7 +189,9 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                   style: TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize:
+                                                          deviceSize.width *
+                                                              0.013,
                                                       color: viewModel
                                                                   .cases[index]
                                                                   .status ==
@@ -202,14 +215,17 @@ class _ViewCasesScreenDesktopState extends State<ViewCasesScreenDesktop> {
                                               ],
                                             )),
                                         Container(
-                                            margin: EdgeInsets.only(right: 20),
+                                            margin: EdgeInsets.only(
+                                                right:
+                                                    deviceSize.width * 0.013),
                                             child: Text(
                                               'المبلغ: ${arabicNumber.convert(viewModel.cases[index].totalPrice)} جنيه',
                                               textAlign: TextAlign.right,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                  fontSize: 20,
+                                                  fontSize:
+                                                      deviceSize.width * 0.013,
                                                   color: Colors.black),
                                             ))
                                         // FittedBox(

@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:abwab_elkheir_dashboard/Models/case_model.dart';
 import 'package:abwab_elkheir_dashboard/Services/UtilityFunctions.dart';
 import 'package:abwab_elkheir_dashboard/ViewModels/AuthenticationViewModel.dart';
@@ -63,7 +65,8 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
 
     caseViewModel.setCaseToEdit(editedCase);
     await caseViewModel.editCase(context, auth.accessToken);
-    context.vRouter.pop();
+    // context.vRouter.pop();
+    window.history.back();
   }
 
   @override

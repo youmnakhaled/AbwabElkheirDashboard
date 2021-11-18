@@ -29,7 +29,7 @@ class UtilityFunctions {
       builder: (ctx) => AlertDialog(
         title: Text(
           title,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.center,
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -37,7 +37,7 @@ class UtilityFunctions {
           children: [
             Text(
               message,
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.center,
             ),
             SizedBox(
               height: 20,
