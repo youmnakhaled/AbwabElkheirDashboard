@@ -117,8 +117,7 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                   inputType: TextInputType.number,
                   onChanged: (value) {
                     setState(() {
-                      String engAmount =
-                          UtilityFunctions.convertNumberToEnglish(value);
+                      String engAmount = UtilityFunctions.convertNumberToEnglish(value);
                       caseViewModel.editCaseTotalPrice = int.parse(engAmount);
                       caseViewModel.isChanged = true;
                     });
@@ -162,9 +161,7 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                     ),
                     borderRadius: BorderRadius.circular(15.0),
                   ),
-                  width: deviceSize.width * 0.3 < 250
-                      ? 250
-                      : deviceSize.width * 0.3,
+                  width: deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: DropdownButtonHideUnderline(
@@ -175,10 +172,9 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                         isExpanded: true,
                         elevation: 10,
                         hint: Text(" درجة الحالة"),
-                        value:
-                            caseViewModel.editCaseStatusController.text.isEmpty
-                                ? null
-                                : caseViewModel.editCaseStatusController.text,
+                        value: caseViewModel.editCaseStatusController.text.isEmpty
+                            ? null
+                            : caseViewModel.editCaseStatusController.text,
                         items: <DropdownMenuItem>[
                           DropdownMenuItem(
                             value: 'في البداية',
@@ -191,6 +187,10 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                           DropdownMenuItem(
                             value: 'جاري التجميع',
                             child: Text('جاري التجميع'),
+                          ),
+                          DropdownMenuItem(
+                            value: "تم",
+                            child: Text("تم"),
                           ),
                         ],
                         onChanged: (value) {
@@ -232,9 +232,7 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: deviceSize.width * 0.3 < 250
-                          ? 250
-                          : deviceSize.width * 0.3,
+                      width: deviceSize.width * 0.3 < 250 ? 250 : deviceSize.width * 0.3,
                       height: 200,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -280,9 +278,7 @@ class _EditCaseScreenDesktopState extends State<EditCaseScreenDesktop> {
                     child: Text('حفظ'),
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            caseViewModel.isChanged
-                                ? ConstantColors.lightBlue
-                                : Colors.grey)),
+                            caseViewModel.isChanged ? ConstantColors.lightBlue : Colors.grey)),
                   ),
                 )
               ],
