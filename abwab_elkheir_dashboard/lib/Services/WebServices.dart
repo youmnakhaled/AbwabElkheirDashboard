@@ -200,6 +200,7 @@ class WebServices {
       // if (response.statusCode != 200) {
       //   throw HTTPException(response.data['message']).toString();
       // }
+
       return response.data;
     } catch (error) {
       print(error);

@@ -59,19 +59,25 @@ class AddCaseViewModel with ChangeNotifier {
       status = Status.loading;
       notifyListeners();
       print('Adding');
-      List<dynamic> imageUrls =
-          await WebServices().getImagesUrls(imageToUpload, token);
 
       //Upload Images to AWS
-      final fields = imageUrls[0]['fields'];
-      fields['file'] = await MultipartFile.fromBytes(
-        await imageToUpload.readAsBytes(),
-        filename: imageToUpload.name,
-      );
-      await WebServices().uploadImage(imageUrls[0]['url'], fields);
-      caseToAdd.images.add(imageUrls[0]['fields']['key']);
+      if (imageToUpload != null) {
+        List<dynamic> imageUrls =
+            await WebServices().getImagesUrls(imageToUpload, token);
 
-      print(caseToAdd.images);
+        final fields = imageUrls[0]['fields'];
+        fields['file'] = await MultipartFile.fromBytes(
+          await imageToUpload.readAsBytes(),
+          filename: imageToUpload.name,
+        );
+        await WebServices().uploadImage(imageUrls[0]['url'], fields);
+        caseToAdd.images.add(imageUrls[0]['fields']['key']);
+        print(caseToAdd.images);
+      } else {
+        //Default image if image not added
+        caseToAdd.images.add('default-case-photo/logo.png');
+      }
+
       Map<String, dynamic> results = await WebServices().addCase(
           caseToAdd.title,
           caseToAdd.description,
