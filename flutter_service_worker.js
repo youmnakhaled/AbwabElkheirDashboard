@@ -7,19 +7,23 @@ const RESOURCES = {
 "assets/assets/logo.png": "1d6bba8ecd444b1b21a3ee38dda73462",
 "assets/assets/placeholder.png": "8057445ee61f0662c373e0503ec524d5",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
-"assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
-"assets/NOTICES": "f106094e3f47714c91d77aefb40f322d",
+"assets/fonts/MaterialIcons-Regular.otf": "4e6447691c9509f7acdbf8a931a85ca1",
+"assets/NOTICES": "736bd3499505f42504df670878d6d7a2",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
+"canvaskit/canvaskit.js": "43fa9e17039a625450b6aba93baf521e",
+"canvaskit/canvaskit.wasm": "04ed3c745ff1dee16504be01f9623498",
+"canvaskit/profiling/canvaskit.js": "f3bfccc993a1e0bfdd3440af60d99df4",
+"canvaskit/profiling/canvaskit.wasm": "a9610cf39260f60fbe7524a785c66101",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "img/logo.png": "1d6bba8ecd444b1b21a3ee38dda73462",
-"index.html": "5949ce12a096908e46226015b55b02fc",
-"/": "5949ce12a096908e46226015b55b02fc",
-"main.dart.js": "d9aed5aaa74435172fb9606805725f0a",
-"manifest.json": "a671768d4f85429154676948498f802f",
-"style.css": "887c20ef1e5f83d3a0535cb81ef6ed52",
-"version.json": "8282cfc337cfce233882c87c29e263c7"
+"index.html": "24ec9a19f21fd3f226032fe4ef24b762",
+"/": "24ec9a19f21fd3f226032fe4ef24b762",
+"main.dart.js": "380f043f8bcf2f30d90cb51dbe29eb36",
+"manifest.json": "f57aca0c581be752cbe01b70e07682ee",
+"style.css": "b4302a84254bd1896ff8cc4c010314c9",
+"version.json": "4cceb2020dcf293bf746a9d41bc22f36"
 };
 
 // The application shell files that are downloaded before a service worker can
@@ -37,7 +41,7 @@ self.addEventListener("install", (event) => {
   return event.waitUntil(
     caches.open(TEMP).then((cache) => {
       return cache.addAll(
-        CORE.map((value) => new Request(value + '?revision=' + RESOURCES[value], {'cache': 'reload'})));
+        CORE.map((value) => new Request(value, {'cache': 'reload'})));
     })
   );
 });
